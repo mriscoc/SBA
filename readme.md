@@ -1,4 +1,4 @@
-![](image.png) # SBA
+# SBA ![](image.png)  
 **Simple Bus Architecture**
 - - - 
 
