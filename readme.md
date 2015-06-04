@@ -28,11 +28,9 @@ Decode the address map to generate the strobe signals.
 Package with useful functions.  
 
 **SBA SysCon**  
-
 Allows to generate a clean system reset
 
 **SBA DataIntf**  
-
 Virtual 3-state Data Output Bus interface. 
 Use to connect SBA Slave blocks to SBA controller input data bus. 
 Allow to the synthesizer to inferring a bus multiplexer
