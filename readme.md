@@ -1,12 +1,14 @@
-# SBA ![](image.png)  
+# SBA
 **Simple Bus Architecture**
-- - - 
 
 + [IP Cores Library](https://github.com/mriscoc/SBA-Library)
 + [Controller Snippets](https://github.com/mriscoc/SBA-Snippets)
 + [Controller Programs](https://github.com/mriscoc/SBA-Programs)  
 
-**SBA Base IP Cores**
+
+# **SBA Base IP Cores**
+- - - 
+![](image.png)   
 
 Author: Miguel A. Risco Castillo  
 email: mrisco@accesus.com  
@@ -27,9 +29,11 @@ Decode the address map to generate the strobe signals.
 Package with useful functions.  
 
 **SBA SysCon**  
+
 Allows to generate a clean system reset
 
 **SBA DataIntf**  
+
 Virtual 3-state Data Output Bus interface. 
 Use to connect SBA Slave blocks to SBA controller input data bus. 
 Allow to the synthesizer to inferring a bus multiplexer

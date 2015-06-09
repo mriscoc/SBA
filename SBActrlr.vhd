@@ -2,18 +2,17 @@
 --
 -- /SBA: Program Details -------------------------------------------------------
 --
--- Program: SBA Serial Simple Demo
--- Version: 0.1
--- Date: 20120116
--- Author: Miguel A. Risco-Castillo
--- Description: Simple Serial demo SBA Project, first ask for a user name
--- through serial port and then send a welcome message
+-- Project Name: %name%
+-- Title: %title%
+-- Version: %version%
+-- Date: %date%
+-- Author: %author%
+-- Description: %description%
 --
 -- /SBA: End -------------------------------------------------------------------
 --
---
--- SBA Master System Controller
--- Based on Master Controller for SBA Version 1.1
+-- SBA Master System Controller v1.51
+-- Based on Master Controller for SBA v1.1 Guidelines
 --
 -- (c) 2008-2015 Miguel A. Risco Castillo
 -- email: mrisco@accesus.com
@@ -23,7 +22,7 @@
 --
 -- v1.51 20150509
 -- * Address always will be of type integer, then the functions to support
---   read and write of unsigned address are removed.
+--   read and write of unsigned address were removed.
 -- * Rename some signal to follow SBA1.1 design guides:
 --   signals in uppercase, ending with lowercase i for internal signals.
 -- * Remove the range limitations of integer variables (the synthesis
@@ -36,13 +35,17 @@
 -- make compatible with pre SBA v1.1
 -- Add SBAjump function (jump to some step)
 --
--- v1.47
+-- v1.47 20110331
 -- Move step, ret and address variables to signals to improve
 -- performance and area. Restore ACK_I functionality
 --
--- v1.46
+-- v1.46 20101015
 -- Implement SBAwait for freeze Bus values;
 -- Restore STB_O functionality
+--
+-- v1.45 20101015
+--
+-- 1.0.1 20100730
 --
 -- v0.6.5 20080603
 -- Initial release.
@@ -70,14 +73,15 @@
 --
 -- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
 --
+--------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.SBA_config.all;
-use work.SBA_package.all;
+use work.%name%_SBAconfig.all;
+use work.SBApackage.all;
 
-entity  SBAController  is
+entity  %name%_SBAcontroller  is
 port(
    RST_I : in std_logic;                     -- active high reset
    CLK_I : in std_logic;                     -- main clock
@@ -89,9 +93,9 @@ port(
    ACK_I : in  std_logic;                    -- Strobe Acknoledge
    INT_I : in  std_logic                     -- Interrupt request
 );
-end SBAController;
+end %name%_SBAcontroller;
 
-architecture SBAController_Arch of SBAController is
+architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
 
   subtype STP_type is integer range 0 to 63;
   subtype ADR_type is integer range 0 to (2**ADR_O'length-1);
@@ -166,38 +170,13 @@ begin
   
 -- /SBA: User Registers and Constants ------------------------------------------
 
--- General user registers used for rutines
-  variable RSTmp   : unsigned(7 downto 0);       -- Temporal register for UART
-  variable UARTFlg : std_logic;                  -- UART ready bit flag
-  variable Dlytmp  : unsigned(15 downto 0);      -- Delay register
- 
--- Application Specific registers
-
-  variable reg1   : unsigned(7 downto 0);        -- GP User register
-  variable reg2   : unsigned(15 downto 0);       -- GP User register
-  variable midx   : integer range 0 to 31;       -- Message index
-
--- UART Welcome Message
-
-  type tarrchar is array (natural range <>) of character;
-  type tarrusgn is array (natural range <>) of unsigned(7 downto 0);
-  constant iniMsg  : tarrchar (0 to 19):=CR & LF & "CUAL ES SU NOMBRE?";
-  constant HelloMsg: tarrchar (0 to 18):=CR & LF & "Hola, Bienvenido ";
-  variable uname   : tarrusgn (0 to 15); -- User name register
 
 -- /SBA: End -------------------------------------------------------------------
 
 
 -- /SBA: Label constants -------------------------------------------------------
-  constant SendChar: integer := 002;
-  constant GetChar: integer := 005;
-  constant Delay: integer := 008;
-  constant Init: integer := 009;
-  constant LoopGetName: integer := 015;
-  constant UpdDsply: integer := 019;
-  constant SendHelloMessage: integer := 022;
-  constant SendName: integer := 025;
-  constant SuperDelay: integer := 030;
+
+
 -- /SBA: End -------------------------------------------------------------------
 
 begin
@@ -228,113 +207,13 @@ begin
                 
 -------------------------------- RUTINES ---------------------------------------
                 
--- /L:SendChar
-        When 002=> SBARead(UART_1);              -- Read UART Status
-        When 003=> UARTFlg := dati(14);          -- TXRDY Flag is bit 14
-        When 004=> if UARTFlg ='0' then          -- Test TXRDY
-                     SBARead(UART_1);            -- if not continue read UART Status
-                     SBAjump(SendChar+1);
-                   else
-                     SBAWrite(UART_0,RSTmp);     -- Write UART Tx
-                     SBARet;                     -- Return
-                   end if;
-                
--- /L:GetChar
-        When 005=> SBARead(UART_0);              -- Read UART Status
-        When 006=> UARTFlg := dati(15);          -- Read RxRdy flag, bit 15
-                   RSTmp:= dati(7 downto 0);     -- Read possible char in to RSTmp
-        When 007=> if UARTFlg ='0' then          -- Test RXRDY
-                     SBARead(UART_0);            -- Continue read UART Status
-                     SBAjump(GetChar+1);
-                   else
-                     SBARet;
-                   end if;
-                
--- /L:Delay
-        When 008=> if Dlytmp/=0 then
-                     dec(Dlytmp);
-                     SBAjump(Delay);
-                   else
-                     SBARet;
-                   end if;
-                
+
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
 -- /L:Init
-        When 009=> midx:=0;
-                   SBAWrite(DSPL7SD,x"0000");
-                
--- UART Send Welcome Msg
-        When 010=> RStmp:=chr2uns(iniMsg(midx));
-                   SBACall(SendChar);
-        When 011=> if midx<iniMsg'length-1 then
-                     inc(midx);
-                     SBAjump(Init+1);
-                   end if;
-                
-        When 012=> RSTmp:=x"0D";
-                   SBACall(SendChar);
-                
-        When 013=> RSTmp:=x"0A";
-                   SBACall(SendChar);
-                
--- Get Name from UART
-        When 014=> midx:=0;
-                
--- /L:LoopGetName
-        When 015=> SBACall(GetChar);             -- Get char from UART
-        When 016=> if (RSTmp = x"0A") or (midx>15) then
-                     reg1:=to_unsigned(midx,reg1'length);
-                     SBAjump(SendHelloMessage);
-                   else
-                     uname(midx):=RSTmp;
-                     inc(midx);
-                   end if;
-                
-        When 017=> SBACall(SendChar);             -- Echo
-                
-        When 018=> reg2:=to_unsigned(midx,8) & RSTmp;
-                
--- /L:UpdDsply
-        When 019=> SBAWrite(DSPL7SD,reg2);
-        When 020=> SBAWrite(GPIO,RSTmp);
-                
-        When 021=> SBAjump(LoopGetName);
-                
--- /L:SendHelloMessage
-        When 022=> midx:=0;
-        When 023=> RStmp:=chr2uns(HelloMsg(midx));
-                   SBACall(SendChar);
-        When 024=> if midx<HelloMsg'length-1 then
-                     inc(midx);
-                     SBAjump(SendHelloMessage+1);
-                   end if;
-                
--- /L:SendName
-        When 025=> midx:=0;
-        When 026=> RStmp:=uname(midx);
-                   SBACall(SendChar);
-        When 027=> if midx<reg1-1 then
-                     inc(midx);
-                     SBAjump(SendName+1);
-                   end if;
-                
-        When 028=> RSTmp:=x"0D";
-                   SBACall(SendChar);
-                
-        When 029=> RSTmp:=x"0A";
-                   SBACall(SendChar);
-                
--- /L:SuperDelay
-        When 030=> reg1:=x"30";
-        When 031=> Dlytmp:=x"FFFF";
-                   SBACall(Delay);
-        When 032=> if reg1/=0 then
-                     dec(reg1);
-                     SBAjump(SuperDelay+1);
-                   end if;
-                
-        When 033=> SBAjump(Init);
+        When 002=> SBAWait;
+
+        When 003=> SBAjump(Init);
                 
 -- /SBA: End -------------------------------------------------------------------
 
@@ -351,5 +230,5 @@ WE_O  <= W_Oi;
 ADR_O <= std_logic_vector(to_unsigned(A_Oi,ADR_O'length));
 DAT_O <= std_logic_vector(D_Oi);
 
-end SBAController_Arch;
+end %name%_SBAController_Arch;
 

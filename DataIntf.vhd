@@ -1,7 +1,7 @@
-----------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- SBA DataIntf
 --
--- version 1.0 20091001
+-- version 1.1 20130412
 --
 -- Virtual 3-state Data Output Bus interface
 -- Use to connect SBA Slave blocks to SBA controller input data bus
@@ -27,7 +27,12 @@
 -- For commercial purposes request the appropriate
 -- license from the author.
 --
-----------------------------------------------------------------
+--------------------------------------------------------------------------------
+--
+-- version 1.1 20130412
+--
+-- version 1.0 20091001
+--------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
