@@ -46,21 +46,23 @@ end %name%_Top;
 architecture %name%_structural of %name%_Top is
      
 -- SBA internal signals
-   Signal RSTi  : Std_Logic; 
-   Signal CLKi  : Std_Logic;
-   Signal ADRi  : ADDR_type;
-   Signal DATOi : DATA_type;
-   Signal DATIi : DATA_type;
-   Signal STBi  : std_logic_vector(Stb_width-1 downto 0);
-   Signal WEi   : Std_Logic;
-   Signal ACKi  : Std_Logic;
-   Signal INTi  : Std_Logic;
+  Signal RSTi  : Std_Logic;
+  Signal CLKi  : Std_Logic;
+  Signal ADRi  : ADDR_type;
+  Signal DATOi : DATA_type;
+  Signal DATIi : DATA_type;
+  Signal STBi  : std_logic_vector(Stb_width-1 downto 0);
+  Signal WEi   : Std_Logic;
+  Signal ACKi  : Std_Logic;
+  Signal INTi  : Std_Logic;
 
 -- Auxiliary external to internal signals
-   Signal CLKe  : std_logic;
-   Signal RSTe  : std_logic;
-   Signal STBEi : std_logic;
+  Signal CLKe  : std_logic;
+  Signal RSTe  : std_logic;
+  Signal STBEi : std_logic;
 
+-- Auxiliary IPCores signals
+%ipcoressignals%
 --------------------------------------------------------------------------------
 
 begin
@@ -95,13 +97,13 @@ begin
 
 %ipcores%
 
- -- External Signals Assignments
- -------------------------------
+-- External Signals Assignments
+-------------------------------
  RSTe  <= RST_I;
  CLKe  <= CLK_I;
 
- -- Internal Signals Assignments
- ------------------------------
+-- Internal Signals Assignments
+-------------------------------
  ACKi  <= '1';                  -- If None Slave IPCore use ACK then ACKi must be '1'
  INTi  <= '0';                  -- No interrupts support;
 
