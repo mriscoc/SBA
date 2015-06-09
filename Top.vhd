@@ -2,23 +2,34 @@
 --
 -- Project Name: %name%
 -- Title: %title%
---
--- Version: %version% %date%
--- Description: 
--- %description%
---
+-- Version: %version%
+-- Date: %date%
 -- Author: %author%
---
+-- Description:
+-- %description%
 --------------------------------------------------------------------------------
+-- Copyright:
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
 --
--- if you use this code for your research please include the appropriate credit
--- of Author.
+-- This version is released under the GNU/GLP license
+-- http://www.gnu.org/licenses/gpl.html
+-- if you use this component for your research please include the appropriate
+-- credit of Author.
 --
--- For commercial purposes request the appropriate license from the author.
+-- The code may not be included into ip collections and similar compilations
+-- which are sold. If you want to distribute this code for money then contact me
+-- first and ask for my permission.
 --
+-- These copyright notices in the source code may not be removed or modified.
+-- If you modify and/or distribute the code to any third party then you must not
+-- veil the original author. It must always be clearly identifiable.
+--
+-- Although it is not required it would be a nice move to recognize my work by
+-- adding a citation to the application's and/or research.
+--
+-- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
 --------------------------------------------------------------------------------
 
 Library IEEE;
@@ -27,8 +38,7 @@ use work.%name%_SBAconfig.all;
 
 entity %name%_Top is
 port (
-%interface%
-);
+%interface%);
 end %name%_Top;
 
 --------------------------------------------------------------------------------
@@ -55,15 +65,15 @@ architecture %name%_structural of %name%_Top is
 
 begin
 
-   %name%_SysCon : entity work.SysCon
-   port Map(
-     CLK_I => CLKe,
-     CLK_O => CLKi,
-     RST_I => RSTe,
-     RST_O => RSTi
-   );
+  %name%_SysCon: entity work.SysCon
+  port Map(
+    CLK_I => CLKe,
+    CLK_O => CLKi,
+    RST_I => RSTe,
+    RST_O => RSTi
+  );
 
-  %name%_Master : entity work.%name%_SBAcontroller
+  %name%_Master: entity work.%name%_SBAcontroller
   port Map(
     RST_I => RSTi, 
     CLK_I => CLKi,  
@@ -76,13 +86,14 @@ begin
     INT_I => INTi  
   );
 
-  %name&_SBAdecoder : entity work.%name%_SBAdecoder
+  %name%_SBAdecoder: entity work.%name%_SBAdecoder
   port Map(
     STB_I => STBEi,
     ADR_I => ADRi,
     STB_O => STBi
   );
 
+%ipcores%
 
  -- External Signals Assignments
  -------------------------------

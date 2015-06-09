@@ -9,7 +9,6 @@
 -- Author: %author%
 -- Description:
 -- %description%
---
 -- /SBA: End -------------------------------------------------------------------
 --
 -- SBA Master System Controller v1.51
@@ -51,6 +50,7 @@
 -- v0.6.5 20080603
 -- Initial release.
 --
+--------------------------------------------------------------------------------
 -- Copyright:
 --
 -- This code, modifications, derivate work or based upon, can not be used or
@@ -82,7 +82,7 @@ use ieee.numeric_std.all;
 use work.%name%_SBAconfig.all;
 use work.SBApackage.all;
 
-entity  %name%_SBAcontroller  is
+entity %name%_SBAcontroller  is
 port(
    RST_I : in std_logic;                     -- active high reset
    CLK_I : in std_logic;                     -- main clock

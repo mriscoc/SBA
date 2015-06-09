@@ -5,9 +5,8 @@
 -- Version: %version%
 -- Date: %date%
 -- Author: %author%
--- Description: 
+-- Description:
 -- %description%
---
 --------------------------------------------------------------------------------
 --
 -- SBA Address Decoder
@@ -37,7 +36,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.%name%_SBAconfig.all;
 
-entity  %name%_SBAdecoder  is
+entity %name%_SBAdecoder  is
 port(
    STB_I: in std_logic;                                     -- Address Enabler
    ADR_I: in ADDR_type;                                     -- Address input Bus
