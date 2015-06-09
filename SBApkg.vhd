@@ -1,13 +1,11 @@
-------------------------------------------------------------
+--------------------------------------------------------------------------------
+--
 -- SBA Package
 --
--- version 4.8 20120824
+-- version 5.0 20150528
 --
--- General constants and functions definitions
--- for SBA v1.0
---
-------------------------------------------------------------
---
+-- General functions definitions
+-- for SBA v1.1
 --
 -- Author:
 -- (c) Miguel A. Risco Castillo
@@ -15,33 +13,78 @@
 -- web page: http://mrisco.accesus.com
 -- sba webpage: http://sba.accesus.com
 --
--- This code, modifications, derivate
--- work or based upon, can not be used
--- or distributed without the
--- complete credits on this header and
--- the consent of the author.
+-- Copyright:
+--
+-- This code, modifications, derivate work or based upon, can not be used or
+-- distributed without the complete credits on this header.
 --
 -- This version is released under the GNU/GLP license
 -- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please
--- include the appropriate credit of Author.
+-- if you use this component for your research please include the appropriate
+-- credit of Author.
 --
--- For commercial purposes request the appropriate
--- license from the author.
+-- The code may not be included into ip collections and similar compilations
+-- which are sold. If you want to distribute this code for money then contact me
+-- first and ask for my permission.
 --
+-- These copyright notices in the source code may not be removed or modified.
+-- If you modify and/or distribute the code to any third party then you must not
+-- veil the original author. It must always be clearly identifiable.
+--
+-- Although it is not required it would be a nice move to recognize my work by
+-- adding a citation to the application's and/or research.
+--
+-- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
+--
+--------------------------------------------------------------------------------
 --
 -- Notes
 --
--- v4.8 added random n bits vector and integer number generator functions.
--- v4.7 removed the stb function and type definitions
--- v4.6 minor change on function hex (resize of result)
--- v4.5 minor change on function stb
--- v4.4 added inc and dec procedures for integers
--- v4.3 added Greatest common divisor function
--- v4.2 change stb() function for Xilinx ISE compatibility
--- v4.1 add internal Data Type to unsigned
--- v4.0 Transfer config values to SBA_config package
+-- v5.0 20150528
+-- added unsigned and integer division
+--
+-- v4.9 20121107
+-- added Trailing function
+--
+-- v4.8 20120824
+-- added random n bits vector and integer number generator functions.
+--
+-- v4.7 20120613
+-- removed the stb function and type definitions
+--
+-- v4.6 20111125
+-- minor change on function hex (resize of result)
+--
+-- v4.5 20110616
+-- minor change on function stb
+
+-- v4.4 20110411
+-- added inc and dec procedures for integers
+--
+-- v4.3 20101118
+-- added Greatest common divisor function
+--
+-- v4.2 20101019
+-- change stb() function for Xilinx ISE compatibility
+--
+-- v4.1 20101019
+-- add internal Data Type to unsigned
+--
+-- v4.0 20101009
+-- Transfer config values to SBA_config package
 -- added multiple conversion functions
+--
+-- v3.5 20100917
+--
+-- v3.0 20100812
+--
+-- v2.3 20091111
+--
+-- v2.2 20091024
+--
+-- v2.0 20091021
+--
+-- v1.2 20081101
 --
 ------------------------------------------------------------
 
@@ -50,8 +93,10 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
-package SBA_package is
+package SBApackage is
 
+  function udiv(a:unsigned;b:unsigned) return unsigned;
+  function sdiv(a:signed;b:signed) return signed;
   function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector;
   function rndv(n:natural) return std_logic_vector;
   function rndi(n:integer) return integer;
@@ -74,25 +119,59 @@ package SBA_package is
   procedure dec(variable val:inout integer);
   procedure dec(signal val:inout std_logic_vector);
 
-end;
+end SBApackage;
 
-package body SBA_package is
+package body SBApackage is
 
-  function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector is
-  variable s:integer;
-  variable v:unsigned(len-1 downto 0);
-  variable d:unsigned(0 downto 0);
+  function sdiv(a:signed;b:signed) return signed is
+  variable a1 : unsigned(a'length-1 downto 0);
+  variable b1 : unsigned(b'length-1 downto 0);
   begin
-    s:=slv'length;
-    d(0):=value;
-    if (len>s) then
-      v:= unsigned(slv) & resize(d,len-s);
+    a1:= unsigned(abs(a(a'range)));
+    b1:= unsigned(abs(b(b'range)));
+    if (a<0 and b>=0) or (a>=0 and b<0) then
+      return -signed(udiv(a1,b1));
     else
-      v:= unsigned(slv(slv'high downto s-len));
+      return signed(udiv(a1,b1));
     end if;
-    return std_logic_vector(v);
   end;
 
+  function  udiv  (a : unsigned; b : unsigned) return unsigned is
+  variable a1 : unsigned(a'length-1 downto 0):=a;
+  variable b1 : unsigned(b'length-1 downto 0):=b;
+  variable p1 : unsigned(b'length downto 0):= (others => '0');
+  variable i : integer:=0;
+  begin
+    for i in 0 to b'length-1 loop
+      p1(b'length-1 downto 1) := p1(b'length-2 downto 0);
+      p1(0) := a1(a'length-1);
+      a1(a'length-1 downto 1) := a1(a'length-2 downto 0);
+      p1 := p1-b1;
+      if(p1(b'length-1) ='1') then
+        a1(0) :='0';
+        p1 := p1+b1;
+      else
+        a1(0) :='1';
+      end if;
+    end loop;
+  return a1;
+  end udiv;
+
+--
+-- Destiny<=Trailing(Source, Destiny'length, '1/0/Z/X');  
+-- 
+  function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector is
+  variable s:integer;
+  variable v:std_logic_vector(len-1 downto 0);
+  begin
+    s:=slv'length;
+    if (len>s) then
+      v:= slv & (len-(s+1) downto 0 => value);
+    else
+      v:= slv(slv'high downto s-len);
+    end if;
+    return v;
+  end;
 
   function rndi(n:integer) return integer is
   variable R: real;

@@ -1,18 +1,26 @@
 --------------------------------------------------------------------------------
 --
+-- Project Name: %name%
+-- Title: %title%
+-- Version: %version%
+-- Date: %date%
+-- Author: %author%
+-- Description: 
+-- %description%
+--
+--------------------------------------------------------------------------------
+--
 -- SBA Address Decoder
--- for BeCoS Demo - SBA Implementation
 -- based in SBA_decoder v3.4
 --
--- Version: 1.0 20150528
---
--- Miguel A. Risco Castillo
+-- (c) 2008-2015 Miguel A. Risco Castillo
 -- email: mrisco@accesus.com
--- web: http://sba.accesus.com
+-- sba web page: http://sba.accesus.com
 --
 -- Release Notes:
 --
--- v1.0 First version 
+-- v1.0 20150525
+-- First version
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
@@ -24,21 +32,20 @@
 --
 --------------------------------------------------------------------------------
 
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.BeCoS_sba_config.all;
+use work.%name%_SBAconfig.all;
 
-entity  BeCoS_SBA_decoder  is
+entity  %name%_SBAdecoder  is
 port(
    STB_I: in std_logic;                                     -- Address Enabler
    ADR_I: in ADDR_type;                                     -- Address input Bus
    STB_O: out std_logic_vector(Stb_width-1 downto 0)        -- Strobe Chips selector 
 );
-end BeCoS_SBA_decoder;
+end %name%_SBAdecoder;
 
-architecture BeCoS_SBA_decoder_Arch of BeCoS_SBA_decoder is
+architecture %name%_SBAdecoder_Arch of %name%_SBAdecoder is
 
 Signal STBi : std_logic_vector(STB_O'range);
 
@@ -58,8 +65,8 @@ ADDRProc:process (ADR_I)
 begin
   ADRi := to_integer(unsigned(ADR_I));
   case ADRi is
-     When RAM0 to RAM0+255        => STBi <= stb(STB_RAM0);  -- RAM0, (x000 - x0FF)
-     When RAM1 to RAM1+255        => STBi <= stb(STB_RAM1);  -- RAM1, (x100 - x1FF)
+--     When RAM0 to RAM0+255        => STBi <= stb(STB_RAM0);  -- RAM0, (x000 - x0FF)
+--     When RAM1 to RAM1+255        => STBi <= stb(STB_RAM1);  -- RAM1, (x100 - x1FF)
      When OTHERS                  => STBi <= (others =>'0');
   end case;
 
@@ -67,5 +74,5 @@ end process;
 
   STB_O <= STBi When STB_I='1' else (others=>'0');
 
-end BeCoS_SBA_decoder_Arch;
+end %name%_SBAdecoder_Arch;
 
