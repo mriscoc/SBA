@@ -2,13 +2,11 @@
 --
 -- Project Name: %name%
 -- Title: %title%
---
--- Version: %version% %date%
--- Description: 
--- %description%
---
+-- Version: %version%
+-- Date: %date%
 -- Author: %author%
---
+-- Description:
+-- %description%
 --------------------------------------------------------------------------------
 --
 -- This code, modifications, derivate work or based upon, can not be used or
@@ -76,7 +74,7 @@ begin
     INT_I => INTi  
   );
 
-  %name&_SBAdecoder : entity work.%name%_SBAdecoder
+  %name%_SBAdecoder : entity work.%name%_SBAdecoder
   port Map(
     STB_I => STBEi,
     ADR_I => ADRi,

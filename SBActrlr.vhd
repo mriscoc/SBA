@@ -9,7 +9,6 @@
 -- Author: %author%
 -- Description:
 -- %description%
---
 -- /SBA: End -------------------------------------------------------------------
 --
 -- SBA Master System Controller v1.51

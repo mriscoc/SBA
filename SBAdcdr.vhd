@@ -5,9 +5,8 @@
 -- Version: %version%
 -- Date: %date%
 -- Author: %author%
--- Description: 
+-- Description:
 -- %description%
---
 --------------------------------------------------------------------------------
 --
 -- SBA Address Decoder

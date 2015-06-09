@@ -2,13 +2,11 @@
 --
 -- Project Name: %name%
 -- Title: %title%
---
--- Version: %version% %date%
--- Description: 
--- %description%
---
+-- Version: %version%
+-- Date: %date%
 -- Author: %author%
---
+-- Description:
+-- %description%
 --------------------------------------------------------------------------------
 --
 -- SBA Config
