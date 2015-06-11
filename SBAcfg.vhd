@@ -76,22 +76,20 @@ use ieee.numeric_std.all;
 package %name%_SBAconfig is
 
 -- System configuration
-  constant debug     : integer := 1;    -- '1' for Debug reports
-  constant Adr_width : integer := 3;    -- Width of address bus
-  constant Dat_width : integer := 16;   -- Width of data bus
-  constant Stb_width : integer := 3;    -- number of strobe signals (chip select)
-  constant sysfrec   : integer := 50e6; -- Main system clock frequency
+  Constant debug     : integer := 1;    -- '1' for Debug reports
+  Constant Adr_width : integer := 16;   -- Width of address bus
+  Constant Dat_width : integer := 16;   -- Width of data bus
+  Constant Stb_width : integer := 8;    -- number of strobe signals (chip select)
+  Constant sysfrec   : integer := 50e6; -- Main system clock frequency
 
 -- Address Map
---constant IPCORE1  : integer := 0;
---constant IPCORE2  : integer := 1;
+%addressmap%
 
 --Strobe Lines
---constant STB_IPCORE1  : integer := 0;
---constant STB_IPCORE2  : integer := 1;
+%stblines%
 
 -- System Type definitions
-  subtype ADDR_type is std_logic_vector(Adr_width-1 downto 0);
-  subtype DATA_type is std_logic_vector(Dat_width-1 downto 0);
+  Subtype ADDR_type is std_logic_vector(Adr_width-1 downto 0);
+  Subtype DATA_type is std_logic_vector(Dat_width-1 downto 0);
 
 end %name%_SBAconfig;
