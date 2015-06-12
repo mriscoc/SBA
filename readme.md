@@ -1,5 +1,6 @@
 # SBA
 **Simple Bus Architecture**
+![](image.png) 
 
 + [IP Cores Library](https://github.com/mriscoc/SBA-Library)
 + [Controller Snippets](https://github.com/mriscoc/SBA-Snippets)
@@ -7,8 +8,6 @@
 
 
 # **SBA Base IP Cores**
-- - - 
-![](image.png)   
 
 Author: Miguel A. Risco Castillo  
 email: mrisco@accesus.com  
