@@ -5,8 +5,7 @@
 -- Version: %version%
 -- Date: %date%
 -- Author: %author%
--- Description:
--- %description%
+-- Description: %description%
 --------------------------------------------------------------------------------
 --
 -- SBA Address Decoder
@@ -64,8 +63,7 @@ ADDRProc:process (ADR_I)
 begin
   ADRi := to_integer(unsigned(ADR_I));
   case ADRi is
---     When RAM0 to RAM0+255        => STBi <= stb(STB_RAM0);  -- RAM0, (x000 - x0FF)
---     When RAM1 to RAM1+255        => STBi <= stb(STB_RAM1);  -- RAM1, (x100 - x1FF)
+%dcdr%
      When OTHERS                  => STBi <= (others =>'0');
   end case;
 

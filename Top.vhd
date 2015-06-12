@@ -5,8 +5,7 @@
 -- Version: %version%
 -- Date: %date%
 -- Author: %author%
--- Description:
--- %description%
+-- Description: %description%
 --------------------------------------------------------------------------------
 -- Copyright:
 --

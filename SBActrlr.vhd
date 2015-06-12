@@ -7,8 +7,7 @@
 -- Version: %version%
 -- Date: %date%
 -- Author: %author%
--- Description:
--- %description%
+-- Description: %description%
 -- /SBA: End -------------------------------------------------------------------
 --
 -- SBA Master System Controller v1.51
