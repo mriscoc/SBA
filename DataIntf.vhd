@@ -1,37 +1,39 @@
 --------------------------------------------------------------------------------
 -- SBA DataIntf
 --
--- version 1.1 20130412
---
 -- Virtual 3-state Data Output Bus interface
--- Use to connect SBA Slave blocks to SBA controller input data bus
+-- Used to connect SBA Slave blocks to SBA controller input data bus
 -- Allow to the synthesizer to inferring a bus multiplexer
 --
--- Author:
--- (c) Miguel A. Risco Castillo
--- email: mrisco@accesus.com
--- web page: http://mrisco.accesus.com
+-- version 1.1 20130412
 --
+-- Author: Miguel A. Risco Castillo
+-- webpage: http://mrisco.accesus.com
+-- sba webpage: http://sba.accesus.com
 --
--- This code, modifications, derivate
--- work or based upon, can not be used
--- or distributed without the
--- complete credits on this header and
--- the consent of the author.
+--------------------------------------------------------------------------------
+-- Copyright:
+--
+-- This code, modifications, derivate work or based upon, can not be used or
+-- distributed without the complete credits on this header.
 --
 -- This version is released under the GNU/GLP license
 -- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please
--- include the appropriate credit of Author.
+-- if you use this component for your research please include the appropriate
+-- credit of Author.
 --
--- For commercial purposes request the appropriate
--- license from the author.
+-- The code may not be included into ip collections and similar compilations
+-- which are sold. If you want to distribute this code for money then contact me
+-- first and ask for my permission.
 --
---------------------------------------------------------------------------------
+-- These copyright notices in the source code may not be removed or modified.
+-- If you modify and/or distribute the code to any third party then you must not
+-- veil the original author. It must always be clearly identifiable.
 --
--- version 1.1 20130412
+-- Although it is not required it would be a nice move to recognize my work by
+-- adding a citation to the application's and/or research.
 --
--- version 1.0 20091001
+-- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
 --------------------------------------------------------------------------------
 
 library ieee;

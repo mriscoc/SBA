@@ -11,23 +11,33 @@
 -- SBA Address Decoder
 -- based in SBA_decoder v3.4
 --
--- (c) 2008-2015 Miguel A. Risco Castillo
--- email: mrisco@accesus.com
--- sba web page: http://sba.accesus.com
+-- Author: Miguel A. Risco Castillo
+-- webpage: http://mrisco.accesus.com
+-- sba webpage: http://sba.accesus.com
 --
--- Release Notes:
---
--- v1.0 20150525
--- First version
+--------------------------------------------------------------------------------
+-- Copyright:
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
 --
--- if you use this code for your research please include the appropriate credit
--- of Author.
+-- This version is released under the GNU/GLP license
+-- http://www.gnu.org/licenses/gpl.html
+-- if you use this component for your research please include the appropriate
+-- credit of Author.
 --
--- For commercial purposes request the appropriate license from the author.
+-- The code may not be included into ip collections and similar compilations
+-- which are sold. If you want to distribute this code for money then contact me
+-- first and ask for my permission.
 --
+-- These copyright notices in the source code may not be removed or modified.
+-- If you modify and/or distribute the code to any third party then you must not
+-- veil the original author. It must always be clearly identifiable.
+--
+-- Although it is not required it would be a nice move to recognize my work by
+-- adding a citation to the application's and/or research.
+--
+-- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
 --------------------------------------------------------------------------------
 
 library ieee;
