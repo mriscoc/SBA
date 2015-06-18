@@ -2,9 +2,9 @@
 **Simple Bus Architecture**  
 ![](image.png) 
 
-+ [IP Cores Library](https://github.com/mriscoc/SBA-Library)
-+ [Controller Snippets](https://github.com/mriscoc/SBA-Snippets)
-+ [Controller Programs](https://github.com/mriscoc/SBA-Programs)  
++ [IP Cores Library](http://sbalibrary.accesus.com)
++ [Controller Snippets](http://sbasnippets.accesus.com)
++ [Controller Programs](http://sbaprograms.accesus.com)
 
 
 # **SBA Base IP Cores**
