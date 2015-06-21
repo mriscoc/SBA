@@ -1,5 +1,4 @@
 --------------------------------------------------------------------------------
---
 -- Project Name: %name%
 -- Title: %title%
 -- Version: %version%
@@ -73,7 +72,9 @@ ADDRProc:process (ADR_I)
 begin
   ADRi := to_integer(unsigned(ADR_I));
   case ADRi is
+  ------------------------------------------------------------
 %dcdr%     When OTHERS              => STBi <= (others =>'0');
+  ------------------------------------------------------------
   end case;
 
 end process;

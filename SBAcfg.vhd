@@ -1,5 +1,4 @@
 --------------------------------------------------------------------------------
---
 -- Project Name: %name%
 -- Title: %title%
 -- Version: %version%
@@ -43,8 +42,6 @@
 --
 -- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
 --------------------------------------------------------------------------------
-
-
 
 library ieee;
 use ieee.std_logic_1164.all;

@@ -1,5 +1,4 @@
 --------------------------------------------------------------------------------
---
 -- Project Name: %name%
 -- Title: %title%
 -- Version: %version%
@@ -98,7 +97,7 @@ begin
 
 -- External Signals Assignments
 -------------------------------
- RSTe  <= RST_I;
+ RSTe  <= RST_I;                -- SBA reset is active high, negate if it is necessary
  CLKe  <= CLK_I;
 
 -- Internal Signals Assignments
