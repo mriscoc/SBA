@@ -1,7 +1,6 @@
 -- /SBA: Controller ------------------------------------------------------------
 --
 -- /SBA: Program Details -------------------------------------------------------
---
 -- Project Name: %name%
 -- Title: %title%
 -- Version: %version%
@@ -10,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End -------------------------------------------------------------------
 --
--- SBA Master System Controller v1.51
+-- SBA Master System Controller v1.52
 -- Based on Master Controller for SBA v1.1 Guidelines
 --
 -- (c) 2008-2015 Miguel A. Risco Castillo
@@ -81,6 +80,7 @@ begin
   variable jmp  : STP_type;                  -- Jump step register
   variable ret  : STP_type;                  -- Return step for subroutines register
   variable dati : unsigned(DAT_I'range);     -- Input Internal Data Bus
+  alias    dato is D_Oi;                     -- Output Data Bus alias
 
 -- /SBA: Procedures ------------------------------------------------------------
 
@@ -105,8 +105,8 @@ begin
 
     A_Oi <= addr;
     S_Oi <= '1';
-    W_Oi  <= '1';
-    D_Oi<= resize(data,D_Oi'length);
+    W_Oi <= '1';
+    D_Oi <= resize(data,D_Oi'length);
   end;
 
   -- Do not make any modification to bus in that step
@@ -152,9 +152,10 @@ begin
       Report "Step: " &  integer'image(STPi);
     end if;
 	 
-	 jmp := 0;				      -- Default jmp value	
-    S_Oi<='0';                -- Default S_Oi value  
-    dati:= unsigned(DAT_I);   -- Get value from data bus
+	jmp := 0;			      -- Default jmp value
+    S_Oi<='0';                -- Default S_Oi value
+
+    dati:= unsigned(DAT_I);   -- Get and capture value from data bus
 	 
 	  
     if (RST_I='1') then
