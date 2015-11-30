@@ -94,16 +94,19 @@ General functions definitions for SBA v1.1
 
  Release Notes
 
- v5.0 20150528
+ v5.1 20151129   
+ * minor correction: add integer range disambiguation to udiv function to avoid GHDL warning, release notes reposition in source file.
+
+ v5.0 20150528   
  * added unsigned and integer division
 
- v4.9 20121107
+ v4.9 20121107   
  * added Trailing function
 
- v4.8 20120824
+ v4.8 20120824   
  * added random n bits vector and integer number generator functions.
 
- v4.7 20120613
+ v4.7 20120613   
  * removed the stb function and type definitions
 
  v4.6 20111125

@@ -2,7 +2,7 @@
 --
 -- SBA Package
 --
--- version 5.0 20150528
+-- version 5.1 20151129
 --
 -- General functions definitions
 -- for SBA v1.1
@@ -11,6 +11,58 @@
 -- (c) Miguel A. Risco Castillo
 -- web page: http://mrisco.accesus.com
 -- sba webpage: http://sba.accesus.com
+--
+-- Release Notes
+--
+-- v5.1 20151129
+-- minor correction: add integer range disambiguation to udiv function to avoid
+-- GHDL warning, release notes reposition in source file.
+--
+-- v5.0 20150528
+-- added unsigned and integer division
+--
+-- v4.9 20121107
+-- added Trailing function
+--
+-- v4.8 20120824
+-- added random n bits vector and integer number generator functions.
+--
+-- v4.7 20120613
+-- removed the stb function and type definitions
+--
+-- v4.6 20111125
+-- minor change on function hex (resize of result)
+--
+-- v4.5 20110616
+-- minor change on function stb
+
+-- v4.4 20110411
+-- added inc and dec procedures for integers
+--
+-- v4.3 20101118
+-- added Greatest common divisor function
+--
+-- v4.2 20101019
+-- change stb() function for Xilinx ISE compatibility
+--
+-- v4.1 20101019
+-- add internal Data Type to unsigned
+--
+-- v4.0 20101009
+-- Transfer config values to SBA_config package
+-- added multiple conversion functions
+--
+-- v3.5 20100917
+--
+-- v3.0 20100812
+--
+-- v2.3 20091111
+--
+-- v2.2 20091024
+--
+-- v2.0 20091021
+--
+-- v1.2 20081101
 --
 --------------------------------------------------------------------------------
 -- Copyright:
