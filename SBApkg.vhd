@@ -143,7 +143,7 @@ package body SBApackage is
   variable p1 : unsigned(b'length downto 0):= (others => '0');
   variable i : integer:=0;
   begin
-    for i in 0 to b'length-1 loop
+    for i in integer range 0 to b'length-1 loop
       p1(b'length-1 downto 1) := p1(b'length-2 downto 0);
       p1(0) := a1(a'length-1);
       a1(a'length-1 downto 1) := a1(a'length-2 downto 0);
