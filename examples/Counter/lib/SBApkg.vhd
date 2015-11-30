@@ -2,43 +2,21 @@
 --
 -- SBA Package
 --
--- version 5.0 20150528
+-- version 5.1 20151129
 --
 -- General functions definitions
 -- for SBA v1.1
 --
 -- Author:
 -- (c) Miguel A. Risco Castillo
--- email: mrisco@accesus.com
 -- web page: http://mrisco.accesus.com
 -- sba webpage: http://sba.accesus.com
 --
--- Copyright:
+-- Release Notes
 --
--- This code, modifications, derivate work or based upon, can not be used or
--- distributed without the complete credits on this header.
---
--- This version is released under the GNU/GLP license
--- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please include the appropriate
--- credit of Author.
---
--- The code may not be included into ip collections and similar compilations
--- which are sold. If you want to distribute this code for money then contact me
--- first and ask for my permission.
---
--- These copyright notices in the source code may not be removed or modified.
--- If you modify and/or distribute the code to any third party then you must not
--- veil the original author. It must always be clearly identifiable.
---
--- Although it is not required it would be a nice move to recognize my work by
--- adding a citation to the application's and/or research.
---
--- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
---
---------------------------------------------------------------------------------
---
--- Notes
+-- v5.1 20151129
+-- minor correction: add integer range disambiguation to udiv function to avoid
+-- GHDL warning, release notes reposition in source file.
 --
 -- v5.0 20150528
 -- added unsigned and integer division
@@ -86,7 +64,30 @@
 --
 -- v1.2 20081101
 --
-------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- Copyright:
+--
+-- This code, modifications, derivate work or based upon, can not be used or
+-- distributed without the complete credits on this header.
+--
+-- This version is released under the GNU/GLP license
+-- http://www.gnu.org/licenses/gpl.html
+-- if you use this component for your research please include the appropriate
+-- credit of Author.
+--
+-- The code may not be included into ip collections and similar compilations
+-- which are sold. If you want to distribute this code for money then contact me
+-- first and ask for my permission.
+--
+-- These copyright notices in the source code may not be removed or modified.
+-- If you modify and/or distribute the code to any third party then you must not
+-- veil the original author. It must always be clearly identifiable.
+--
+-- Although it is not required it would be a nice move to recognize my work by
+-- adding a citation to the application's and/or research.
+--
+-- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
+---------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -142,7 +143,7 @@ package body SBApackage is
   variable p1 : unsigned(b'length downto 0):= (others => '0');
   variable i : integer:=0;
   begin
-    for i in 0 to b'length-1 loop
+    for i in integer range 0 to b'length-1 loop
       p1(b'length-1 downto 1) := p1(b'length-2 downto 0);
       p1(0) := a1(a'length-1);
       a1(a'length-1 downto 1) := a1(a'length-2 downto 0);
