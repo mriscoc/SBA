@@ -7,13 +7,13 @@
 -- Date: %date%
 -- Author: %author%
 -- Description: %description%
--- /SBA: End -------------------------------------------------------------------
+-- /SBA: End Program Details ---------------------------------------------------
 --
 -- SBA Master System Controller v1.52
 -- Based on Master Controller for SBA v1.1 Guidelines
 --
 -- (c) 2008-2015 Miguel A. Risco Castillo
--- sba web page: http://sba.accesus.com
+-- SBA web page: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
 -- Copyright:
@@ -21,23 +21,18 @@
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
 --
--- This version is released under the GNU/GLP license
--- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please include the appropriate
--- credit of Author.
---
--- The code may not be included into ip collections and similar compilations
--- which are sold. If you want to distribute this code for money then contact me
--- first and ask for my permission.
---
--- These copyright notices in the source code may not be removed or modified.
+-- The copyright notices in the source code may not be removed or modified.
 -- If you modify and/or distribute the code to any third party then you must not
 -- veil the original author. It must always be clearly identifiable.
 --
 -- Although it is not required it would be a nice move to recognize my work by
--- adding a citation to the application's and/or research.
+-- adding a citation to the application's and/or research. If you use this
+-- component for your research please include the appropriate credit of Author.
 --
 -- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
+--
+-- For non commercial purposes this version is released under the GNU/GLP license
+-- http://www.gnu.org/licenses/gpl.html
 --------------------------------------------------------------------------------
 
 library ieee;
@@ -55,7 +50,7 @@ port(
    ADR_O : out std_logic_vector;             -- Address output Bus
    STB_O : out std_logic;                    -- Strobe enabler
    WE_O  : out std_logic;                    -- Write / Read
-   ACK_I : in  std_logic;                    -- Strobe Acknoledge
+   ACK_I : in  std_logic;                    -- Strobe Acknowledge
    INT_I : in  std_logic                     -- Interrupt request
 );
 end %name%_SBAcontroller;
@@ -71,6 +66,10 @@ architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
   signal W_Oi : std_logic;                   -- Write enable ('0' read enable)
   signal STPi : STP_type;                    -- STeP counter
   signal NSTPi: STP_type;                    -- Step counter + 1 (Next STep)
+
+-- /SBA: User Signals and Type definitions ---------------------------------
+
+-- /SBA: End User Signals and Type definitions -----------------------------
 
 begin
 
@@ -133,16 +132,20 @@ begin
   begin
     jmp:=ret;
   end;
+
+-- /SBA: End Procedures --------------------------------------------------------
+
+-- /SBA: User Procedures and Functions -----------------------------------------
+
+-- /SBA: End User Procedures and Functions -------------------------------------
   
 -- /SBA: User Registers and Constants ------------------------------------------
 
-
--- /SBA: End -------------------------------------------------------------------
-
+-- /SBA: End User Registers and Constants --------------------------------------
 
 -- /SBA: Label constants -------------------------------------------------------
   constant Init: integer := 002;
--- /SBA: End -------------------------------------------------------------------
+-- /SBA: End Label constants ---------------------------------------------------
 
 begin
 
@@ -172,7 +175,7 @@ begin
         When 001=> SBAjump(Init);
                 
 -------------------------------- RUTINES ---------------------------------------
-                
+
 
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
@@ -181,7 +184,7 @@ begin
 
         When 003=> SBAjump(Init);
                 
--- /SBA: End -------------------------------------------------------------------
+-- /SBA: End User Program ------------------------------------------------------
 
         When others=> jmp:=1; 
       end case;
@@ -189,6 +192,10 @@ begin
     end if;
   end if;
 end process;
+
+-- /SBA: User Statements -------------------------------------------------------
+
+-- /SBA: End User Statements ---------------------------------------------------
 
 NSTPi <= STPi + 1;      -- Step plus one (Next STeP)
 STB_O <= S_Oi;
