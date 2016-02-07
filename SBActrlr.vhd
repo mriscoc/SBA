@@ -1,6 +1,6 @@
--- /SBA: Controller ------------------------------------------------------------
+-- /SBA: Controller ============================================================
 --
--- /SBA: Program Details -------------------------------------------------------
+-- /SBA: Program Details =======================================================
 -- Project Name: %name%
 -- Title: %title%
 -- Version: %version%
@@ -67,9 +67,9 @@ architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
   signal STPi : STP_type;                    -- STeP counter
   signal NSTPi: STP_type;                    -- Step counter + 1 (Next STep)
 
--- /SBA: User Signals and Type definitions ---------------------------------
+-- /SBA: User Signals and Type definitions =====================================
 
--- /SBA: End User Signals and Type definitions -----------------------------
+-- /SBA: End User Signals and Type definitions ---------------------------------
 
 begin
 
@@ -81,7 +81,7 @@ begin
   variable dati : unsigned(DAT_I'range);     -- Input Internal Data Bus
   alias    dato is D_Oi;                     -- Output Data Bus alias
 
--- /SBA: Procedures ------------------------------------------------------------
+-- /SBA: Procedures ============================================================
 
   -- Prepare bus for reading from DAT_I in the next step
   procedure SBAread(addr:in integer) is
@@ -135,15 +135,15 @@ begin
 
 -- /SBA: End Procedures --------------------------------------------------------
 
--- /SBA: User Procedures and Functions -----------------------------------------
+-- /SBA: User Procedures and Functions =========================================
 
 -- /SBA: End User Procedures and Functions -------------------------------------
   
--- /SBA: User Registers and Constants ------------------------------------------
+-- /SBA: User Registers and Constants ==========================================
 
 -- /SBA: End User Registers and Constants --------------------------------------
 
--- /SBA: Label constants -------------------------------------------------------
+-- /SBA: Label constants =======================================================
   constant Init: integer := 002;
 -- /SBA: End Label constants ---------------------------------------------------
 
@@ -170,7 +170,7 @@ begin
     elsif (ACK_I='1') or (S_Oi='0') then
       case STPi is
 
--- /SBA: User Program ----------------------------------------------------------
+-- /SBA: User Program ==========================================================
                 
         When 001=> SBAjump(Init);
                 
@@ -193,7 +193,7 @@ begin
   end if;
 end process;
 
--- /SBA: User Statements -------------------------------------------------------
+-- /SBA: User Statements =======================================================
 
 -- /SBA: End User Statements ---------------------------------------------------
 
