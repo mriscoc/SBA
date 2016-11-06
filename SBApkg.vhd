@@ -2,17 +2,19 @@
 --
 -- SBA Package
 --
--- version 5.1 20151129
+-- version 5.2 2016/11/03
 --
--- General functions definitions
+-- General functions and procedures definitions
 -- for SBA v1.1
 --
 -- Author:
 -- (c) Miguel A. Risco Castillo
--- web page: http://mrisco.accesus.com
 -- sba webpage: http://sba.accesus.com
 --
 -- Release Notes
+--
+-- v5.2 2016/11/03
+-- add inc and dec functions for signed, unsigned and integer signals arguments
 --
 -- v5.1 20151129
 -- minor correction: add integer range disambiguation to udiv function to avoid
@@ -103,12 +105,18 @@ package SBApackage is
   function gcd(dat1,dat2:integer) return integer;  -- Greatest common divisor
   procedure clr(signal val: inout std_logic_vector);
   procedure clr(variable val:inout unsigned);
-  procedure inc(variable val:inout unsigned); 
-  procedure inc(variable val:inout integer);
   procedure inc(signal val:inout std_logic_vector);
+  procedure inc(signal val:inout unsigned);
+  procedure inc(signal val:inout signed);
+  procedure inc(signal val:inout integer);
+  procedure inc(variable val:inout unsigned);
+  procedure inc(variable val:inout integer);
+  procedure dec(signal val:inout std_logic_vector);
+  procedure dec(signal val:inout unsigned);
+  procedure dec(signal val:inout signed);
+  procedure dec(signal val:inout integer);
   procedure dec(variable val:inout unsigned);
   procedure dec(variable val:inout integer);
-  procedure dec(signal val:inout std_logic_vector);
 
 end SBApackage;
 
@@ -241,9 +249,8 @@ package body SBApackage is
     return chr(hex(int));
   end;  
 
-   -- convert integer to string using specified base
-   -- (adapted from Steve Vogwell's posting in comp.lang.vhdl)
-
+-- convert integer to string using specified base
+-- (adapted from Steve Vogwell's posting in comp.lang.vhdl)
   function int2str(int: integer) return string is
     variable temp:      string(1 to 10);
     variable num:       integer;
@@ -271,7 +278,8 @@ package body SBApackage is
     end if;
   end int2str;
 
-  function gcd(dat1,dat2:integer) return integer is  -- Greatest common divisor
+-- Greatest common divisor
+  function gcd(dat1,dat2:integer) return integer is
   variable tmp_X, tmp_Y: integer;
   begin
     tmp_X := dat1;
@@ -303,6 +311,21 @@ package body SBApackage is
     val<= std_logic_vector(unsigned(val) + 1);
   end;
 
+  procedure inc(signal val:inout signed) is
+  begin
+    val<= val + 1;
+  end;
+
+  procedure inc(signal val:inout unsigned) is
+  begin
+    val<= val + 1;
+  end;
+
+  procedure inc(signal val:inout integer) is
+  begin
+    val<= val + 1;
+  end;
+
   procedure inc(variable val:inout unsigned) is
   begin
     val := val + 1;
@@ -316,6 +339,21 @@ package body SBApackage is
   procedure dec(signal val:inout std_logic_vector) is
   begin
     val<= std_logic_vector(unsigned(val) - 1);
+  end;
+
+  procedure dec(signal val:inout unsigned) is
+  begin
+    val<= val - 1;
+  end;
+
+  procedure dec(signal val:inout signed) is
+  begin
+    val<= val - 1;
+  end;
+
+  procedure dec(signal val:inout integer) is
+  begin
+    val<= val - 1;
   end;
 
   procedure dec(variable val:inout unsigned) is
