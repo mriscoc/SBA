@@ -2,7 +2,7 @@
 --
 -- SBA Package
 --
--- version 5.2 2016/11/03
+-- version 5.3 2017/01/03
 --
 -- General functions and procedures definitions
 -- for SBA v1.1
@@ -12,6 +12,9 @@
 -- sba webpage: http://sba.accesus.com
 --
 -- Release Notes
+--
+-- v5.3 2017/01/03
+-- revert v5.2, removing functions for signals
 --
 -- v5.2 2016/11/03
 -- add inc and dec functions for signed, unsigned and integer signals arguments
@@ -106,15 +109,9 @@ package SBApackage is
   procedure clr(signal val: inout std_logic_vector);
   procedure clr(variable val:inout unsigned);
   procedure inc(signal val:inout std_logic_vector);
-  procedure inc(signal val:inout unsigned);
-  procedure inc(signal val:inout signed);
-  procedure inc(signal val:inout integer);
   procedure inc(variable val:inout unsigned);
   procedure inc(variable val:inout integer);
   procedure dec(signal val:inout std_logic_vector);
-  procedure dec(signal val:inout unsigned);
-  procedure dec(signal val:inout signed);
-  procedure dec(signal val:inout integer);
   procedure dec(variable val:inout unsigned);
   procedure dec(variable val:inout integer);
 
@@ -311,21 +308,6 @@ package body SBApackage is
     val<= std_logic_vector(unsigned(val) + 1);
   end;
 
-  procedure inc(signal val:inout signed) is
-  begin
-    val<= val + 1;
-  end;
-
-  procedure inc(signal val:inout unsigned) is
-  begin
-    val<= val + 1;
-  end;
-
-  procedure inc(signal val:inout integer) is
-  begin
-    val<= val + 1;
-  end;
-
   procedure inc(variable val:inout unsigned) is
   begin
     val := val + 1;
@@ -339,21 +321,6 @@ package body SBApackage is
   procedure dec(signal val:inout std_logic_vector) is
   begin
     val<= std_logic_vector(unsigned(val) - 1);
-  end;
-
-  procedure dec(signal val:inout unsigned) is
-  begin
-    val<= val - 1;
-  end;
-
-  procedure dec(signal val:inout signed) is
-  begin
-    val<= val - 1;
-  end;
-
-  procedure dec(signal val:inout integer) is
-  begin
-    val<= val - 1;
   end;
 
   procedure dec(variable val:inout unsigned) is
