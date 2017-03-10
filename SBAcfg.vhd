@@ -19,7 +19,7 @@
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
--- Copyright:
+-- Copyright example, you can use or modify at your convenience for your project.
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
