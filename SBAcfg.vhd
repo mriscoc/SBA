@@ -3,7 +3,7 @@
 -- Title: %title%
 -- Version: %version%
 -- Date: %date%
--- Author: %author%
+-- Project Author: %author%
 -- Description: %description%
 --------------------------------------------------------------------------------
 --
@@ -13,6 +13,9 @@
 -- Based on SBA v1.1 guidelines
 --
 -- v1.5 20150507
+--
+-- SBA Author: Miguel A. Risco-Castillo
+-- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
 -- Copyright example, you can use or modify at your convenience for your project.
