@@ -3,19 +3,18 @@
 -- Title: %title%
 -- Version: %version%
 -- Date: %date%
--- Author: %author%
+-- Project Author: %author%
 -- Description: %description%
 --------------------------------------------------------------------------------
 --
 -- SBA Address Decoder
 -- based in SBA_decoder v3.4
 --
--- Author: Miguel A. Risco Castillo
--- webpage: http://mrisco.accesus.com
+-- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
--- Copyright:
+-- Copyright of the component SBA Address decoder:
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
