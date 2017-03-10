@@ -5,14 +5,14 @@
 -- Title: %title%
 -- Version: %version%
 -- Date: %date%
--- Author: %author%
+-- Project Author: %author%
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
 -- SBA Master System Controller v1.52
 -- Based on Master Controller for SBA v1.1 Guidelines
 --
--- (c) 2008-2015 Miguel A. Risco Castillo
+-- SBA Author: Miguel A. Risco-Castillo
 -- SBA web page: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
