@@ -7,12 +7,11 @@
 --
 -- version 1.1 20130412
 --
--- Author: Miguel A. Risco Castillo
--- webpage: http://mrisco.accesus.com
+-- SBA Author: Miguel A. Risco Castillo
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
--- Copyright:
+-- Copyright about SBA Data interface component:
 --
 -- This code, modifications, derivate work or based upon, can not be used or
 -- distributed without the complete credits on this header.
