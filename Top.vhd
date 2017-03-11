@@ -3,7 +3,7 @@
 -- Title: %title%
 -- Version: %version%
 -- Date: %date%
--- Author: %author%
+-- Project Author: %author%
 -- Description: %description%
 --------------------------------------------------------------------------------
 -- Copyright example, you can use or modify at your convenience for your project.
