@@ -91,6 +91,9 @@ General functions definitions for SBA v1.1
 
 Release Notes
 
+v5.3 2017/01/03
+* revert v5.2, removing functions for signals
+
 v5.1 20151129   
 * minor correction: add integer range disambiguation to udiv function to avoid GHDL warning, release notes reposition in source file.
 
