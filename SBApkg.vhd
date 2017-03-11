@@ -8,7 +8,7 @@
 -- for SBA v1.1
 --
 -- Author:
--- (c) Miguel A. Risco Castillo
+-- (c) Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
 --
 -- Release Notes
