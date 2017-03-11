@@ -5,8 +5,7 @@
 -- Version: 0.2
 -- Date: 2015-06-03
 
--- Author: Miguel A. Risco-Castillo
--- web page: http://mrisco.accesus.com
+-- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
