@@ -48,7 +48,7 @@ package %name%_SBAconfig is
   Constant Adr_width : integer := 16;   -- Width of address bus
   Constant Dat_width : integer := 16;   -- Width of data bus
   Constant Stb_width : integer := 8;    -- number of strobe signals (chip select)
-  Constant sysfrec   : integer := 50e6; -- Main system clock frequency
+  Constant sysfreq   : integer := 50e6; -- Main system clock frequency
 
 -- Address Map
 %addressmap%
