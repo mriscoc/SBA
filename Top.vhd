@@ -47,6 +47,7 @@ architecture %name%_structural of %name%_Top is
   Signal ADRi  : ADDR_type;
   Signal DATOi : DATA_type;
   Signal DATIi : DATA_type;
+  Signal STBEi : std_logic;
   Signal STBi  : std_logic_vector(Stb_width-1 downto 0);
   Signal WEi   : Std_Logic;
   Signal ACKi  : Std_Logic;
@@ -55,7 +56,6 @@ architecture %name%_structural of %name%_Top is
 -- Auxiliary external to internal signals
   Signal CLKe  : std_logic;
   Signal RSTe  : std_logic;
-  Signal STBEi : std_logic;
 
 -- Auxiliary IPCores signals
 %ipcoressignals%

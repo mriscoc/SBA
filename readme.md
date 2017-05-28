@@ -48,6 +48,15 @@ v1.0 20101009
 
  Release Notes:
 
+v1.53 20170510
+* Added SBAWrite with integer data argument
+
+v1.52 20151016
+* Cosmetics changes
+* Alias added
+* Update version number
+* Template formatting
+
 v1.51 20150509
 * Address always will be of type integer, then the functions to support
   read and write of unsigned address were removed.

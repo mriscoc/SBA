@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.52
+-- SBA Master System Controller v1.53
 -- Based on Master Controller for SBA v1.1 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -107,6 +107,12 @@ begin
     W_Oi <= '1';
     D_Oi <= resize(data,D_Oi'length);
   end;
+
+  -- write integers
+  procedure SBAwrite(addr:in integer; data: in integer) is
+  begin
+    SBAwrite(addr,to_unsigned(data,D_Oi'length));
+  end;		   
 
   -- Do not make any modification to bus in that step
   procedure SBAwait is
