@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.53
+-- SBA Master System Controller v1.60 2017/05/24
 -- Based on Master Controller for SBA v1.1 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -66,6 +66,8 @@ architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
   signal W_Oi : std_logic;                   -- Write enable ('0' read enable)
   signal STPi : STP_type;                    -- STeP counter
   signal NSTPi: STP_type;                    -- Step counter + 1 (Next STep)
+  signal IFi  : std_logic;                   -- Interrupt Flag
+  signal IEi  : std_logic;                   -- Interrupt Enable
 
 -- /SBA: User Signals and Type definitions =====================================
 
@@ -80,6 +82,12 @@ begin
   variable ret  : STP_type;                  -- Return step for subroutines register
   variable dati : unsigned(DAT_I'range);     -- Input Internal Data Bus
   alias    dato is D_Oi;                     -- Output Data Bus alias
+
+-- Interrup support variables
+  variable reti : STP_type;                  -- Return from Interrupt
+  variable rfif : std_logic;                 -- Return from Interrupt flag
+  variable tmpdati : unsigned(DAT_I'range);  -- Temporal dati
+  variable tiei : std_logic;                 -- Temporal Interrupt Enable
 
 -- /SBA: Procedures ============================================================
 
@@ -133,10 +141,24 @@ begin
 	 ret:=NSTPi;
   end;
 
-  -- Copy the return step to jump variable
+  -- Return from subrutine
   procedure SBAret is
   begin
-    jmp:=ret;
+    jmp:=ret;  -- Copy the return step to jump variable
+  end;
+
+  -- Return from interrupt
+  procedure SBAreti is
+  begin
+    jmp:=reti;
+    IEi<=tiei;
+    rfif:='1';
+  end;
+
+  -- Interrupt enable disable
+  procedure SBAinte(enable:boolean) is
+  begin
+    if enable then IEi<='1'; else IEi<='0'; end if;
   end;
 
 -- /SBA: End Procedures --------------------------------------------------------
@@ -164,14 +186,27 @@ begin
 	jmp := 0;			      -- Default jmp value
     S_Oi<='0';                -- Default S_Oi value
 
-    dati:= unsigned(DAT_I);   -- Get and capture value from data bus
-	 
-	  
+	if STPi=2 then            -- Save DAT_I to restore after interrupt
+      tmpdati:=unsigned(DAT_I);
+    end if;
+
+    if rfif='0' then
+      dati:= unsigned(DAT_I); -- Get and capture value from data bus
+    else
+      dati:= tmpdati;         -- restore data bus after interrupt
+      rfif:= '0';
+    end if;
+
     if (RST_I='1') then
       ret := 0;               -- Default ret value  
       STPi<= 1;               -- First step is 1 (cal and jmp valid only if >0)
       A_Oi<= 0;               -- Default Address Value
       W_Oi<='1';              -- Default W_Oi value on reset
+
+    -- Interrupt Support
+      IEi <='0';              -- Default Interrupt disable
+      reti:= 0;
+      rfif:='0';
 
     elsif (ACK_I='1') or (S_Oi='0') then
       case STPi is
@@ -179,25 +214,48 @@ begin
 -- /SBA: User Program ==========================================================
                 
         When 001=> SBAjump(Init);
-                
--------------------------------- ROUTINES ---------------------------------------
+        When 002=> SBAjump(INT);                  -- Interrupt Vector
 
+------------------------------ ROUTINES ----------------------------------------
 
+------------------------------ INTERRUPT ---------------------------------------
+-- /L:INT
+        When 003=> SBAreti;
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
 -- /L:Init
-        When 002=> SBAWait;
+        When 004=> SBAWait;
 
-        When 003=> SBAjump(Init);
+        When 005=> SBAjump(Init);
                 
 -- /SBA: End User Program ------------------------------------------------------
 
         When others=> jmp:=1; 
       end case;
-      if jmp/=0 then STPi<=jmp; else STPi<=NSTPi; end if;
+
+      if IFi='1' then
+        if jmp/=0 then reti:=jmp; else reti:=NSTPi; end if;
+        tiei := IEi;
+        IEi <= '0';
+        STPi <= 2;
+      else
+        if jmp/=0 then STPi<=jmp; else STPi<=NSTPi; end if;
+      end if;
+
     end if;
   end if;
 end process;
+
+IntProcess : process(RST_I,INT_I,IEi)
+begin
+  if RST_I='1' then
+    IFi<='0';
+  elsif (INT_I='1') and (IEi='1') then
+    IFi<='1';
+  else
+    IFi<='0';
+  end if;
+end process IntProcess;
 
 -- /SBA: User Statements =======================================================
 
