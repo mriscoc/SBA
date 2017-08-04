@@ -172,7 +172,8 @@ begin
 -- /SBA: End User Registers and Constants --------------------------------------
 
 -- /SBA: Label constants =======================================================
-  constant Init: integer := 002;
+  constant INT: integer := 003;
+  constant Init: integer := 004;
 -- /SBA: End Label constants ---------------------------------------------------
 
 begin
