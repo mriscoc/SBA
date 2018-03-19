@@ -1,26 +1,36 @@
-# SBA
+SBA
+===
+
 **Simple Bus Architecture**  
-![](image.png) 
+![](image.png)
 
 + [IP Cores Library](http://sbalibrary.accesus.com)
 + [Controller Snippets](http://sbasnippets.accesus.com)
 + [Controller Programs](http://sbaprograms.accesus.com)
 
+SBA Base IP Cores
+=================
 
-# **SBA Base IP Cores**
+SBA v1.2 compliant
 
 Author: Miguel A. Risco Castillo  
 email: mrisco@accesus.com  
-sba web page: http://sba.accesus.com  
+sba web page: <http://sba.accesus.com>
 
 This folder have the main and basic set of files to implement a SBA System.  
 
 **SBA Config**  
 
  Constants for SBA system configuration and address map.  
- Based on SBA v1.1 guidelines  
+ Based on SBA v1.2 guidelines
 
  Release Notes:
+
+v1.7 2018/03/18  
+* SBAv1.2 compliant
+
+v1.6 2017/05/28  
+* Change sysfrec to sysfreq
 
 v1.5 20150507
 * revert and return the type definitions from SBA_Typedef to SBA_Config
@@ -47,6 +57,9 @@ v1.0 20101009
  Based on Master Controller for SBA v1.1 Guidelines  
 
  Release Notes:
+
+v1.60 2017/05/24  
+* Added interrupt support
 
 v1.53 20170510
 * Added SBAWrite with integer data argument

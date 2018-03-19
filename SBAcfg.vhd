@@ -10,9 +10,9 @@
 -- SBA Config
 --
 -- Constants for SBA system configuration and address map.
--- Based on SBA v1.1 guidelines
+-- Based on SBA v1.2 guidelines
 --
--- v1.6 2017/05/28
+-- v1.7 2018/03/18
 --
 -- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
@@ -39,7 +39,6 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 
 package %name%_SBAconfig is
 
@@ -57,7 +56,8 @@ package %name%_SBAconfig is
 %stblines%
 
 -- System Type definitions
-  Subtype ADDR_type is std_logic_vector(Adr_width-1 downto 0);
-  Subtype DATA_type is std_logic_vector(Dat_width-1 downto 0);
+  Subtype ADDR_type is std_logic_vector(Adr_width-1 downto 0); -- Address Bus type
+  Subtype DATA_type is std_logic_vector(Dat_width-1 downto 0); -- Data Bus type
+  type    ADAT_type is array(0 to Stb_width-1) of DATA_type;     -- Array of Data Bus
 
 end %name%_SBAconfig;

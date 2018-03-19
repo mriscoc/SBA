@@ -6,8 +6,8 @@
 -- Project Author: %author%
 -- Description: %description%
 --------------------------------------------------------------------------------
--- Template version: 1.1
--- Template date: 2017/03/10
+-- Template version: 1.2
+-- Template date: 2018/03/18
 --------------------------------------------------------------------------------
 -- Copyright example, you can use or modify at your convenience for your project.
 --
@@ -47,6 +47,7 @@ architecture %name%_structural of %name%_Top is
   Signal ADRi  : ADDR_type;
   Signal DATOi : DATA_type;
   Signal DATIi : DATA_type;
+  Signal ADATi : ADAT_type;
   Signal STBEi : std_logic;
   Signal STBi  : std_logic_vector(Stb_width-1 downto 0);
   Signal WEi   : Std_Logic;
@@ -84,11 +85,15 @@ begin
     INT_I => INTi  
   );
 
-  %name%_SBAdecoder: entity work.%name%_SBAdecoder
+  %name%_mux: entity work.%name%_SBAmux
   port Map(
-    STB_I => STBEi,
-    ADR_I => ADRi,
-    STB_O => STBi
+    STB_I => STBEi,             -- Address Enabler
+    -- ADDRESS decoder --------
+    ADR_I => ADRi,              -- Address input Bus
+    STB_O => STBi,              -- Strobe Chips selector
+    -- DATA mux ---------------
+    ADAT_I=> ADATi,             -- Array of data buses
+    DAT_O => DATIi              -- Data out bus
   );
 
 %ipcores%
