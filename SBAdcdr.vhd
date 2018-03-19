@@ -7,8 +7,10 @@
 -- Description: %description%
 --------------------------------------------------------------------------------
 --
--- SBA Address Decoder
--- based in SBA_decoder v3.4
+-- SBA Address Decoder  DEPRECATED
+-- Decode the address map to generate the strobe signals.
+-- Based in SBA_decoder v3.4
+-- SBA v1.1 compliant
 --
 -- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com

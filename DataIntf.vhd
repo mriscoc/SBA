@@ -6,6 +6,7 @@
 -- Allow to the synthesizer to inferring a bus multiplexer
 --
 -- version 1.1 20130412
+-- SBA v1.1 compliant
 --
 -- SBA Author: Miguel A. Risco Castillo
 -- sba webpage: http://sba.accesus.com

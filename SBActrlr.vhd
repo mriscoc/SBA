@@ -10,7 +10,7 @@
 -- /SBA: End Program Details ---------------------------------------------------
 --
 -- SBA Master System Controller v1.60 2017/05/24
--- Based on Master Controller for SBA v1.1 Guidelines
+-- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
 -- SBA web page: http://sba.accesus.com

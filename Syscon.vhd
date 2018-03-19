@@ -4,6 +4,7 @@
 --
 -- Version: 0.2
 -- Date: 2015-06-03
+-- SBA v1.2 compliant
 
 -- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com

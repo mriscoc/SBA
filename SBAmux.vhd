@@ -6,6 +6,7 @@
 -- Project Author: %author%
 -- Description: %description%
 --------------------------------------------------------------------------------
+-- SBA Mux
 --
 -- SBA Address Decoder and Data Mux
 -- Based on SBA v1.2 guidelines

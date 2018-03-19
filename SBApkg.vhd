@@ -5,7 +5,7 @@
 -- version 5.3 2017/01/03
 --
 -- General functions and procedures definitions
--- for SBA v1.1
+-- for SBA v1.2
 --
 -- Author:
 -- (c) Miguel A. Risco-Castillo

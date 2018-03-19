@@ -1,12 +1,13 @@
 SBA
 ===
-
 **Simple Bus Architecture**  
+
 ![](image.png)
 
++ [SBA System Creator](http://sba.accesus.com/software-tools/sba-creator)
 + [IP Cores Library](http://sbalibrary.accesus.com)
-+ [Controller Snippets](http://sbasnippets.accesus.com)
 + [Controller Programs](http://sbaprograms.accesus.com)
++ [Controller Snippets](http://sbasnippets.accesus.com)
 
 SBA Base IP Cores
 =================
@@ -14,14 +15,16 @@ SBA Base IP Cores
 SBA v1.2 compliant
 
 Author: Miguel A. Risco Castillo  
-email: mrisco@accesus.com  
 sba web page: <http://sba.accesus.com>
 
-This folder have the main and basic set of files to implement a SBA System.  
+This repository have the main and basic set of templates to implement a SBA System.  
 
-**SBA Config**  
+--------------------------------------------------------------------------------
 
- Constants for SBA system configuration and address map.  
+SBA Config
+----------
+
+ Package with constants for SBA system configuration and address map.  
  Based on SBA v1.2 guidelines
 
  Release Notes:
@@ -51,7 +54,10 @@ v1.1 20110411
 v1.0 20101009
 * First version
 
-**SBA Controller**  
+--------------------------------------------------------------------------------
+
+SBA Controller
+--------------
 
  SBA Master System Controller v1.51
  Based on Master Controller for SBA v1.1 Guidelines  
@@ -99,17 +105,55 @@ v1.0.1 20100730
 v0.6.5 20080603
 * Initial release.
 
-**SBA Decoder**
-Decode the address map to generate the strobe signals.  
+```vhdl
+entity %name%_SBAcontroller  is
+port(
+   RST_I : in std_logic;                     -- active high reset
+   CLK_I : in std_logic;                     -- main clock
+   DAT_I : in std_logic_vector;              -- Data input Bus
+   DAT_O : out std_logic_vector;             -- Data output Bus
+   ADR_O : out std_logic_vector;             -- Address output Bus
+   STB_O : out std_logic;                    -- Strobe enabler
+   WE_O  : out std_logic;                    -- Write / Read
+   ACK_I : in  std_logic;                    -- Strobe Acknowledge
+   INT_I : in  std_logic                     -- Interrupt request
+);
+end %name%_SBAcontroller;
+```
+
+--------------------------------------------------------------------------------
+
+SBA Mux
+-------
+
+Decode the address map to generate the strobe signals.
+Generate the data multiplexers.
 
 Release Notes:
 
-v1.0 20150525
+v1.0 2018/03/18
 * First version
 
-**SBA Package**  
+```vhdl
+entity %name%_SBAMux  is
+port(
+  STB_I : in std_logic;                                -- Address Enabler
+  -- ADDRESS decoder --------
+  ADR_I : in ADDR_type;                                -- Address input Bus
+  STB_O : out std_logic_vector(Stb_width-1 downto 0);  -- Strobe Chips selector
+  -- DATA mux ---------------
+  ADAT_I: in ADAT_type;                                -- Array of data buses
+  DAT_O : out DATA_type                                -- Data out bus
+);
+end %name%_SBAMux;
+```
 
-General functions definitions for SBA v1.1  
+--------------------------------------------------------------------------------
+
+SBA Package
+-----------
+
+Package with general functions definitions for SBA v1.1  
 
 Release Notes
 
@@ -165,7 +209,39 @@ v2.0 20091021
 
 v1.2 20081101
 
-**SBA SysCon**  
+```vhdl
+package SBApackage is
+
+  function udiv(a:unsigned;b:unsigned) return unsigned;
+  function sdiv(a:signed;b:signed) return signed;
+  function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector;
+  function rndv(n:natural) return std_logic_vector;
+  function rndi(n:integer) return integer;
+  function chr2uns(chr: character) return unsigned;
+  function chr2int(chr: character) return integer;
+  function chr(uns: unsigned) return character;
+  function chr(int: integer) return character;
+  function hex2uns(hex: unsigned) return unsigned;
+  function hex(uns: unsigned) return unsigned;
+  function hex(int: integer) return integer;
+  function hex(int: integer) return character;
+  function int2str(int: integer) return string;
+  function gcd(dat1,dat2:integer) return integer;  -- Greatest common divisor
+  procedure clr(signal val: inout std_logic_vector);
+  procedure clr(variable val:inout unsigned);
+  procedure inc(signal val:inout std_logic_vector);
+  procedure inc(variable val:inout unsigned);
+  procedure inc(variable val:inout integer);
+  procedure dec(signal val:inout std_logic_vector);
+  procedure dec(variable val:inout unsigned);
+  procedure dec(variable val:inout integer);
+
+end SBApackage;
+```
+--------------------------------------------------------------------------------
+
+SBA SysCon
+----------
 
 Allows to generate a clean system reset
 
@@ -179,7 +255,21 @@ v0.2 2015-06-03
 v0.1 2011-04-10
 * First version
 
-**SBA DataIntf**  
+```vhdl
+entity  SysCon  is
+generic(PLL:boolean:=false);
+port(
+   CLK_I: in  std_logic;          -- External Clock input
+   CLK_O: out std_logic;          -- System Clock output 
+   RST_I: in  std_logic;          -- Asynchronous Reset Input
+   RST_O: out std_logic           -- Synchronous Reset Output
+);
+end SysCon;
+```
+--------------------------------------------------------------------------------
+
+SBA DataIntf `Deprecated`
+------------
 
 Virtual 3-state Data Output Bus interface. 
 Use to connect SBA Slave blocks to SBA controller input data bus. 
@@ -190,3 +280,36 @@ Release Notes
 version 1.1 20130412
 
 version 1.0 20091001
+
+```vhdl
+entity  DataIntf  is
+port(
+   STB_I: in  std_logic;           -- Strobe input Chip selector
+   DAT_I: in  std_logic_vector;    -- Data Bus from slave       
+   DAT_O: out std_logic_vector     -- output Data Bus to master
+);
+end DataIntf;
+```
+--------------------------------------------------------------------------------
+
+SBA Decoder `Deprecated`
+-----------
+
+Decode the address map to generate the strobe signals.  
+
+Release Notes:
+
+v1.0 20150525
+* First version
+
+```vhdl
+entity %name%_SBAdecoder  is
+port(
+   STB_I: in std_logic;                                     -- Address Enabler
+   ADR_I: in ADDR_type;                                     -- Address input Bus
+   STB_O: out std_logic_vector(Stb_width-1 downto 0)        -- Strobe Chips selector 
+);
+end %name%_SBAdecoder;
+```
+
+
