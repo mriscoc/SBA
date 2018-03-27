@@ -214,20 +214,20 @@ begin
 
 -- /SBA: User Program ==========================================================
                 
-        When 001=> SBAjump(Init);
-        When 002=> SBAjump(INT);                  -- Interrupt Vector
+        When 001=> SBAjump(Init);            -- Reset Vector (001)
+        When 002=> SBAjump(INT);             -- Interrupt Vector (002)
 
 ------------------------------ ROUTINES ----------------------------------------
 
 ------------------------------ INTERRUPT ---------------------------------------
 -- /L:INT
-        When 003=> SBAreti;
+        When 003=> SBAWait;                  -- Start your interrupt routine here
+        When 004=> SBAreti;
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
 -- /L:Init
-        When 004=> SBAWait;
-
-        When 005=> SBAjump(Init);
+        When 005=> SBAWait;                  -- Start your program here
+        When 006=> SBAjump(Init);
                 
 -- /SBA: End User Program ------------------------------------------------------
 
@@ -238,7 +238,7 @@ begin
         if jmp/=0 then reti:=jmp; else reti:=NSTPi; end if;
         tiei := IEi;
         IEi <= '0';
-        STPi <= 2;
+        STPi <= 2;      -- Always jump to Step 002 (Interrupt vector) (TODO: Could be INT?)
       else
         if jmp/=0 then STPi<=jmp; else STPi<=NSTPi; end if;
       end if;
