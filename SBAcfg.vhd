@@ -58,6 +58,6 @@ package %name%_SBAconfig is
 -- System Type definitions
   Subtype ADDR_type is std_logic_vector(Adr_width-1 downto 0); -- Address Bus type
   Subtype DATA_type is std_logic_vector(Dat_width-1 downto 0); -- Data Bus type
-  type    ADAT_type is array(0 to Stb_width-1) of DATA_type;     -- Array of Data Bus
+  type    ADAT_type is array(0 to Stb_width-1) of DATA_type;   -- Array of Data Bus
 
 end %name%_SBAconfig;
