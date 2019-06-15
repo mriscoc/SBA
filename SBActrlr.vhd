@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.60 2017/05/24
+-- SBA Master System Controller v1.70 2019/04/22
 -- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -58,6 +58,7 @@ end %name%_SBAcontroller;
 architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
 
   subtype STP_type is integer range 0 to 63;
+  type STPS_type is array (0 to 7) of STP_type; -- 8 levels of subrutine support
   subtype ADR_type is integer range 0 to (2**ADR_O'length-1);
 
   signal D_Oi : unsigned(DAT_O'range);       -- Internal Data Out signal (unsigned)
@@ -79,9 +80,12 @@ begin
 
 -- General variables
   variable jmp  : STP_type;                  -- Jump step register
-  variable ret  : STP_type;                  -- Return step for subroutines register
   variable dati : unsigned(DAT_I'range);     -- Input Internal Data Bus
   alias    dato is D_Oi;                     -- Output Data Bus alias
+
+-- Multiroutine support
+  variable STPS  : STPS_type;                -- Step Stack
+  variable STPS_P : natural range STPS'range;-- Step Stack pointer
 
 -- Interrup support variables
   variable reti : STP_type;                  -- Return from Interrupt
@@ -138,13 +142,15 @@ begin
   procedure SBAcall(stp:in integer) is
   begin
 	 jmp:=stp;
-	 ret:=NSTPi;
+     STPS(STPS_P):=NSTPi;
+     dec(STPS_P);
   end;
 
   -- Return from subrutine
   procedure SBAret is
   begin
-    jmp:=ret;  -- Copy the return step to jump variable
+    inc(STPS_P);
+    jmp:=STPS(STPS_P);
   end;
 
   -- Return from interrupt
@@ -199,10 +205,12 @@ begin
     end if;
 
     if (RST_I='1') then
-      ret := 0;               -- Default ret value  
       STPi<= 1;               -- First step is 1 (cal and jmp valid only if >0)
       A_Oi<= 0;               -- Default Address Value
       W_Oi<='1';              -- Default W_Oi value on reset
+
+    -- Multisubroutine support
+      STPS_P:=STPS'high;      -- Default Step Stack pointer value
 
     -- Interrupt Support
       IEi <='0';              -- Default Interrupt disable

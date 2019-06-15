@@ -64,6 +64,9 @@ SBA Controller
 
  Release Notes:
 
+v1.70 2019/04/22
+* Added support for multisubroutines
+
 v1.60 2017/05/24  
 * Added interrupt support
 
