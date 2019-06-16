@@ -12,29 +12,14 @@
 -- Constants for SBA system configuration and address map.
 -- Based on SBA v1.2 guidelines
 --
--- v1.7 2018/03/18
+-- v1.8 2019/06/15
 --
 -- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
--- Copyright example, you can use or modify at your convenience for your project.
---
--- This code, modifications, derivate work or based upon, can not be used or
--- distributed without the complete credits on this header.
---
--- The copyright notices in the source code may not be removed or modified.
--- If you modify and/or distribute the code to any third party then you must not
--- veil the original author. It must always be clearly identifiable.
---
--- Although it is not required it would be a nice move to recognize my work by
--- adding a citation to the application's and/or research. If you use this
--- component for your research please include the appropriate credit of Author.
---
--- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
---
--- For non commercial purposes this version is released under the GNU/GLP license
--- http://www.gnu.org/licenses/gpl.html
+-- For License and Copyright example, you can use or modify at your convenience
+-- the file SBAlicense.md for your project.
 --------------------------------------------------------------------------------
 
 library ieee;

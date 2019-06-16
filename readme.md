@@ -21,13 +21,26 @@ This repository have the main and basic set of templates to implement a SBA Syst
 
 --------------------------------------------------------------------------------
 
-SBA Config
-----------
+Top (Top.vhd)
+-------------
+This is the main file and it is at the top of the hierarchical structure  
+
+ Release Notes:  
+
+v1.8 2019/06/15  
+* Update license information  
+ 
+
+SBA Config (SBAcfg.vhd)
+-----------------------
 
  Package with constants for SBA system configuration and address map.  
  Based on SBA v1.2 guidelines
 
  Release Notes:
+
+v1.8 2019/06/15
+* Update license information
 
 v1.7 2018/03/18  
 * SBAv1.2 compliant
@@ -56,15 +69,16 @@ v1.0 20101009
 
 --------------------------------------------------------------------------------
 
-SBA Controller
---------------
+SBA Controller (SBActrlr.vhd)
+-----------------------------
 
  SBA Master System Controller v1.51
  Based on Master Controller for SBA v1.1 Guidelines  
 
  Release Notes:
 
-v1.70 2019/04/22
+v1.70 2019/06/15
+* Update license information
 * Added support for multisubroutines
 
 v1.60 2017/05/24  
@@ -126,13 +140,16 @@ end %name%_SBAcontroller;
 
 --------------------------------------------------------------------------------
 
-SBA Mux
--------
+SBA Mux (SBAmux.vhd)
+--------------------
 
 Decode the address map to generate the strobe signals.
 Generate the data multiplexers.
 
 Release Notes:
+
+v1.1 2019/06/15
+* Update license information
 
 v1.0 2018/03/18
 * First version
@@ -153,12 +170,15 @@ end %name%_SBAMux;
 
 --------------------------------------------------------------------------------
 
-SBA Package
------------
+SBA Package (SBApkg.vhd)
+------------------------
 
 Package with general functions definitions for SBA v1.1  
 
 Release Notes
+
+v5.4 2019/06/15
+* Update license information
 
 v5.3 2017/01/03
 * revert v5.2, removing functions for signals
@@ -243,17 +263,21 @@ end SBApackage;
 ```
 --------------------------------------------------------------------------------
 
-SBA SysCon
-----------
+SBA SysCon (Syscon.vhd)
+-----------------------
 
 Allows to generate a clean system reset
 
 Release Notes:
 
+v1.1 2019/06/15
+* Update license information
+* Remove PLL support
+
 v0.2 2015-06-03
 * Merge version with and without PLL
 * Choose the PLL version using generic
-* Remove SBA_config and SBA_package dependency, not in use
+* Remove SBA_config and SBA_package dependency
 
 v0.1 2011-04-10
 * First version
@@ -271,8 +295,8 @@ end SysCon;
 ```
 --------------------------------------------------------------------------------
 
-SBA DataIntf `Deprecated`
-------------
+SBA Data Interface (DataIntf.vhd) `Deprecated`
+----------------------------------------------
 
 Virtual 3-state Data Output Bus interface. 
 Use to connect SBA Slave blocks to SBA controller input data bus. 
@@ -280,9 +304,12 @@ Allow to the synthesizer to inferring a bus multiplexer
 
 Release Notes
  
-version 1.1 20130412
+v1.2 2019/06/15
+* Update license information
 
-version 1.0 20091001
+version 1.1 2013/04/12
+
+version 1.0 2009/10/01
 
 ```vhdl
 entity  DataIntf  is
@@ -295,12 +322,15 @@ end DataIntf;
 ```
 --------------------------------------------------------------------------------
 
-SBA Decoder `Deprecated`
------------
+SBA Decoder (SBAdcdr.vhd) `Deprecated`
+--------------------------------------
 
 Decode the address map to generate the strobe signals.  
 
 Release Notes:
+
+v3.4 2019/06/15
+* Update license information
 
 v1.0 20150525
 * First version
@@ -314,5 +344,3 @@ port(
 );
 end %name%_SBAdecoder;
 ```
-
-
