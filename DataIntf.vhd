@@ -12,7 +12,8 @@
 -- sba webpage: http://sba.accesus.com
 --
 --------------------------------------------------------------------------------
--- For License and copyright information refer to the file SBAlicense.md
+-- For License and copyright information refer to the file:
+-- https://github.com/mriscoc/SBA/blob/master/SBAlicense.md
 --------------------------------------------------------------------------------
 
 library ieee;
