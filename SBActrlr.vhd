@@ -214,12 +214,12 @@ begin
 
 ------------------------------ INTERRUPT ---------------------------------------
 -- /L:INT
-        When 003=> SBAWait;                  -- Start your interrupt routine here
+        When 003=> SBAwait;                  -- Start your interrupt routine here
         When 004=> SBAreti;
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
 -- /L:Init
-        When 005=> SBAWait;                  -- Start your program here
+        When 005=> SBAwait;                  -- Start your program here
         When 006=> SBAjump(Init);
                 
 -- /SBA: End User Program ------------------------------------------------------
