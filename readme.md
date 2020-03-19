@@ -39,6 +39,9 @@ SBA Config (SBAcfg.vhd)
 
  Release Notes:
 
+v1.9 2019/11/16
+* Added Char and Integer arrays types 
+
 v1.8 2019/06/15
 * Update license information
 

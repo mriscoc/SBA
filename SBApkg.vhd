@@ -2,7 +2,7 @@
 --
 -- SBA Package
 --
--- version 5.4 2019/06/15
+-- version 5.5 2019/08/04
 --
 -- General functions and procedures definitions
 -- for SBA v1.2
@@ -46,6 +46,10 @@ package SBApackage is
   procedure dec(signal val:inout std_logic_vector);
   procedure dec(variable val:inout unsigned);
   procedure dec(variable val:inout integer);
+  function MAXIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MINIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MAXIMUM(a:signed;b:signed) return signed;
+  function MINIMUM(a:signed;b:signed) return signed;
 
 end SBApackage;
 
@@ -263,6 +267,42 @@ package body SBApackage is
   procedure dec(variable val:inout integer) is
   begin
     val := val - 1;
+  end;
+
+  function MAXIMUM(a:unsigned;b:unsigned) return unsigned is
+  begin
+    if a>b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+  function MINIMUM(a:unsigned;b:unsigned) return unsigned is
+  begin
+    if a<b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+  function MAXIMUM(a:signed;b:signed) return signed is
+  begin
+    if a>b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+    function MINIMUM(a:signed;b:signed) return signed is
+  begin
+    if a<b then
+      return a;
+    else
+      return b;
+    end if;
   end;
 
 end;

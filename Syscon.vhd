@@ -1,10 +1,12 @@
 ----------------------------------------------------------------
 -- SBA SysCon
--- System CLK & Reset Synchronizer
 --
--- Version: 1.1
--- Date: 2019/06/15
--- SBA v1.2 compliant
+-- System CLK & Reset Synchronizer
+-- Based on SBA v1.2 guidelines
+--
+-- v1.1 2019/06/15
+-- Update license information
+-- Remove PLL support
 
 -- SBA Author: Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
