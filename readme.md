@@ -264,8 +264,12 @@ package SBApackage is
   procedure dec(signal val:inout std_logic_vector);
   procedure dec(variable val:inout unsigned);
   procedure dec(variable val:inout integer);
+  function MAXIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MINIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MAXIMUM(a:signed;b:signed) return signed;
+  function MINIMUM(a:signed;b:signed) return signed;
 
-end SBApackage;
+end SBApackage; 
 ```
 --------------------------------------------------------------------------------
 
