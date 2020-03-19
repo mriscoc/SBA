@@ -177,14 +177,17 @@ Package with general functions definitions for SBA v1.1
 
 Release Notes
 
-v5.4 2019/06/15
-* Update license information
+v5.5 2019/08/04  
+* Implemented MAXIMUM and MINIMUM functions for unsigned and signed values 
+
+v5.4 2019/06/15  
+* Update license information  
 
 v5.3 2017/01/03
-* revert v5.2, removing functions for signals
+* revert v5.2, removing functions for signals  
 
 v5.1 20151129   
-* minor correction: add integer range disambiguation to udiv function to avoid GHDL warning, release notes reposition in source file.
+* minor correction: add integer range disambiguation to udiv function to avoid GHDL warning, release notes reposition in source file.  
 
 v5.0 20150528   
 * added unsigned and integer division
