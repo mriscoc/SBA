@@ -1,15 +1,17 @@
 -- /SBA: Controller ============================================================
 --
 -- /SBA: Program Details =======================================================
--- Project Name: %name%
--- Title: %title%
--- Version: %version%
--- Date: %date%
--- Project Author: %author%
--- Description: %description%
+-- Project Name: Counter
+-- Title: SBA Seven segments 4 digits up counter demo
+-- Version: 0.1.1
+-- Date: 2025/08/03
+-- Project Author: Miguel Risco-Castillo
+-- Description: Demo implementation of a simple upcounter with 4 digits, 7 segments 
+-- display and a pulsating LED for the Terasic DE boards. The system 
+-- clock is assumed to be 50MHz.
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.71 2025/08/03
+-- SBA Master System Controller v1.70 2019/04/22
 -- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -23,10 +25,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.%name%_SBAconfig.all;
+use work.Counter_SBAconfig.all;
 use work.SBApackage.all;
 
-entity %name%_SBAcontroller  is
+entity Counter_SBAcontroller  is
 port(
    RST_I : in std_logic;                     -- active high reset
    CLK_I : in std_logic;                     -- main clock
@@ -38,11 +40,11 @@ port(
    ACK_I : in  std_logic;                    -- Strobe Acknowledge
    INT_I : in  std_logic                     -- Interrupt request
 );
-end %name%_SBAcontroller;
+end Counter_SBAcontroller;
 
-architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
+architecture Counter_SBAcontroller_Arch of Counter_SBAcontroller is
 
-  subtype STP_type is integer range 0 to 63;
+  subtype STP_type is integer range 0 to 13;
   type STPS_type is array (0 to 7) of STP_type; -- 8 levels of subrutine support
   subtype ADR_type is integer range 0 to (2**ADR_O'length-1);
 
@@ -55,9 +57,6 @@ architecture %name%_SBAcontroller_Arch of %name%_SBAcontroller is
   signal IFi  : std_logic;                   -- Interrupt Flag
   signal IEi  : std_logic;                   -- Interrupt Enable
 
--- /SBA: User Signals and Type definitions =====================================
-
--- /SBA: End User Signals and Type definitions ---------------------------------
 
 begin
 
@@ -111,7 +110,7 @@ begin
     SBAwrite(addr,to_unsigned(data,D_Oi'length));
   end;		   
 
-  -- Do not make any changes to the bus and re-enable the strobe signal, use only after a valid read/write.
+  -- Do not make any modification to bus in that step
   procedure SBAwait is
   begin
     S_Oi<='1'; 
@@ -154,17 +153,22 @@ begin
 
 -- /SBA: End Procedures --------------------------------------------------------
 
--- /SBA: User Procedures and Functions =========================================
-
--- /SBA: End User Procedures and Functions -------------------------------------
   
 -- /SBA: User Registers and Constants ==========================================
+
+variable count : unsigned(15 downto 0); -- Counter register
+
+   constant ms         : positive:= positive(real(sysfreq)/real(1000)+0.499)-1;
+   variable DlyReg_1ms : natural range 0 to ms;  -- Constant Delay of 1ms
+   variable Dly_ms     : natural;                -- Delay register in ms
 
 -- /SBA: End User Registers and Constants --------------------------------------
 
 -- /SBA: Label constants =======================================================
-  constant INT: integer := 003;
-  constant Init: integer := 004;
+  constant Delay_ms: integer := 003;
+  constant INT: integer := 006;
+  constant Init: integer := 008;
+  constant Mainloop: integer := 009;
 -- /SBA: End Label constants ---------------------------------------------------
 
 begin
@@ -209,19 +213,36 @@ begin
                 
         When 001=> SBAjump(Init);            -- Reset Vector (001)
         When 002=> SBAjump(INT);             -- Interrupt Vector (002)
-
+                
 ------------------------------ ROUTINES ----------------------------------------
-
+-- /L:Delay_ms
+        When 003=> DlyReg_1ms:=ms;
+        When 004=> if DlyReg_1ms/=0 then
+                     dec(DlyReg_1ms);
+                     SBAjump(Delay_ms+1);
+                   end if;
+        When 005=> if Dly_ms/=0 then
+                     dec(Dly_ms);
+                     SBAjump(Delay_ms);
+                   else
+                     SBARet;
+                   end if;
+                
 ------------------------------ INTERRUPT ---------------------------------------
 -- /L:INT
-        When 003=>                           -- Start your interrupt routine here
-        When 004=> SBAreti;
+        When 006=>                          -- Start your interrupt routine here
+        When 007=> SBAreti;
 ------------------------------ MAIN PROGRAM ------------------------------------
                 
 -- /L:Init
-        When 005=>                           -- Start your program here
+        When 008=> count := x"0000";        -- Initial counter value
 -- /L:Mainloop
-        When 006=> SBAjump(Mainloop);
+        When 009=> SBAwrite(D7S_S, count);  -- Show count in the display
+        When 010=> SBAwrite(GPIO, count);   -- Show count in the leds
+        When 011=> Dly_ms := 1000;          -- Wait for 1000ms
+                   SBAcall(Delay_ms);       -- Call delay routine
+        When 012=> inc(count);              -- Increment counter register
+                   SBAjump(Mainloop);       -- Jump to Mainloop
                 
 -- /SBA: End User Program ------------------------------------------------------
 
@@ -252,9 +273,6 @@ begin
   end if;
 end process IntProcess;
 
--- /SBA: User Statements =======================================================
-
--- /SBA: End User Statements ---------------------------------------------------
 
 NSTPi <= STPi + 1;      -- Step plus one (Next STeP)
 STB_O <= S_Oi;
@@ -262,5 +280,5 @@ WE_O  <= W_Oi;
 ADR_O <= std_logic_vector(to_unsigned(A_Oi,ADR_O'length));
 DAT_O <= std_logic_vector(D_Oi);
 
-end %name%_SBAController_Arch;
+end Counter_SBAController_Arch;
 

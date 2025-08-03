@@ -2,92 +2,19 @@
 --
 -- SBA Package
 --
--- version 5.1 20151129
+-- version 5.6 2025/08/03
 --
--- General functions definitions
--- for SBA v1.1
+-- General functions and procedures definitions
+-- for SBA v1.2
 --
 -- Author:
--- (c) Miguel A. Risco Castillo
--- web page: http://mrisco.accesus.com
+-- (c) Miguel A. Risco-Castillo
 -- sba webpage: http://sba.accesus.com
 --
--- Release Notes
---
--- v5.1 20151129
--- minor correction: add integer range disambiguation to udiv function to avoid
--- GHDL warning, release notes reposition in source file.
---
--- v5.0 20150528
--- added unsigned and integer division
---
--- v4.9 20121107
--- added Trailing function
---
--- v4.8 20120824
--- added random n bits vector and integer number generator functions.
---
--- v4.7 20120613
--- removed the stb function and type definitions
---
--- v4.6 20111125
--- minor change on function hex (resize of result)
---
--- v4.5 20110616
--- minor change on function stb
-
--- v4.4 20110411
--- added inc and dec procedures for integers
---
--- v4.3 20101118
--- added Greatest common divisor function
---
--- v4.2 20101019
--- change stb() function for Xilinx ISE compatibility
---
--- v4.1 20101019
--- add internal Data Type to unsigned
---
--- v4.0 20101009
--- Transfer config values to SBA_config package
--- added multiple conversion functions
---
--- v3.5 20100917
---
--- v3.0 20100812
---
--- v2.3 20091111
---
--- v2.2 20091024
---
--- v2.0 20091021
---
--- v1.2 20081101
---
 --------------------------------------------------------------------------------
--- Copyright:
---
--- This code, modifications, derivate work or based upon, can not be used or
--- distributed without the complete credits on this header.
---
--- This version is released under the GNU/GLP license
--- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please include the appropriate
--- credit of Author.
---
--- The code may not be included into ip collections and similar compilations
--- which are sold. If you want to distribute this code for money then contact me
--- first and ask for my permission.
---
--- These copyright notices in the source code may not be removed or modified.
--- If you modify and/or distribute the code to any third party then you must not
--- veil the original author. It must always be clearly identifiable.
---
--- Although it is not required it would be a nice move to recognize my work by
--- adding a citation to the application's and/or research.
---
--- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
----------------------------------------------------------------------------------
+-- For License and copyright information refer to the file:
+-- https://github.com/mriscoc/SBA/blob/master/SBAlicense.md
+--------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -101,11 +28,11 @@ package SBApackage is
   function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector;
   function rndv(n:natural) return std_logic_vector;
   function rndi(n:integer) return integer;
-  function chr2uns(chr: character) return unsigned;
-  function chr2int(chr: character) return integer;
+  function chr2uns(char: character) return unsigned;
+  function chr2int(char: character) return integer;
   function chr(uns: unsigned) return character;
   function chr(int: integer) return character;
-  function hex2uns(hex: unsigned) return unsigned;
+  function hex2uns(hexval: unsigned) return unsigned;
   function hex(uns: unsigned) return unsigned;
   function hex(int: integer) return integer;
   function hex(int: integer) return character;
@@ -113,12 +40,16 @@ package SBApackage is
   function gcd(dat1,dat2:integer) return integer;  -- Greatest common divisor
   procedure clr(signal val: inout std_logic_vector);
   procedure clr(variable val:inout unsigned);
-  procedure inc(variable val:inout unsigned); 
-  procedure inc(variable val:inout integer);
   procedure inc(signal val:inout std_logic_vector);
+  procedure inc(variable val:inout unsigned);
+  procedure inc(variable val:inout integer);
+  procedure dec(signal val:inout std_logic_vector);
   procedure dec(variable val:inout unsigned);
   procedure dec(variable val:inout integer);
-  procedure dec(signal val:inout std_logic_vector);
+  function MAXIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MINIMUM(a:unsigned;b:unsigned) return unsigned;
+  function MAXIMUM(a:signed;b:signed) return signed;
+  function MINIMUM(a:signed;b:signed) return signed;
 
 end SBApackage;
 
@@ -141,7 +72,6 @@ package body SBApackage is
   variable a1 : unsigned(a'length-1 downto 0):=a;
   variable b1 : unsigned(b'length-1 downto 0):=b;
   variable p1 : unsigned(b'length downto 0):= (others => '0');
-  variable i : integer:=0;
   begin
     for i in integer range 0 to b'length-1 loop
       p1(b'length-1 downto 1) := p1(b'length-2 downto 0);
@@ -159,8 +89,8 @@ package body SBApackage is
   end udiv;
 
 --
--- Destiny<=Trailing(Source, Destiny'length, '1/0/Z/X');  
--- 
+-- Destiny<=Trailing(Source, Destiny'length, '1/0/Z/X');
+--
   function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector is
   variable s:integer;
   variable v:std_logic_vector(len-1 downto 0);
@@ -187,14 +117,14 @@ package body SBApackage is
     return std_logic_vector(to_unsigned(rndi(2**n-1),n));
   end;
 
-  function chr2uns(chr: character) return unsigned is
+  function chr2uns(char: character) return unsigned is
   begin
-    return to_unsigned(character'pos(chr),8);
+    return to_unsigned(character'pos(char),8);
   end;
 
-  function chr2int(chr: character) return integer is
+  function chr2int(char: character) return integer is
   begin
-    return character'pos(chr);
+    return character'pos(char);
   end;
 
   function chr(uns: unsigned) return character is
@@ -207,13 +137,13 @@ package body SBApackage is
     return character'val(int);
   end;
 
-  function hex2uns(hex: unsigned) return unsigned is
-  variable ret:unsigned(hex'range);
+  function hex2uns(hexval: unsigned) return unsigned is
+  variable ret:unsigned(hexval'range);
   begin
-    if (hex>=chr2uns('0')) and (hex<=chr2uns('9')) then
-      ret:= hex - chr2uns('0');
-    elsif (hex>=chr2uns('A')) and (hex<=chr2uns('F')) then
-      ret:= hex - chr2uns('A') + 10;
+    if (hexval>=chr2uns('0')) and (hexval<=chr2uns('9')) then
+      ret:= hexval - chr2uns('0');
+    elsif (hexval>=chr2uns('A')) and (hexval<=chr2uns('F')) then
+      ret:= hexval - chr2uns('A') + 10;
     else
       ret:= (others=>'0');
     end if;
@@ -230,7 +160,7 @@ package body SBApackage is
     else
       ret:= resize(chr2uns('?'),uns'length);
     end if;
-    return ret;     
+    return ret;
   end;
 
   function hex(int: integer) return integer is
@@ -243,17 +173,16 @@ package body SBApackage is
     else
       ret:= chr2int('?');
     end if;
-    return ret;     
+    return ret;
   end;
 
   function hex(int: integer) return character is
   begin
     return chr(hex(int));
-  end;  
+  end;
 
-   -- convert integer to string using specified base
-   -- (adapted from Steve Vogwell's posting in comp.lang.vhdl)
-
+-- convert integer to string using specified base
+-- (adapted from Steve Vogwell's posting in comp.lang.vhdl)
   function int2str(int: integer) return string is
     variable temp:      string(1 to 10);
     variable num:       integer;
@@ -281,7 +210,8 @@ package body SBApackage is
     end if;
   end int2str;
 
-  function gcd(dat1,dat2:integer) return integer is  -- Greatest common divisor
+-- Greatest common divisor
+  function gcd(dat1,dat2:integer) return integer is
   variable tmp_X, tmp_Y: integer;
   begin
     tmp_X := dat1;
@@ -336,6 +266,42 @@ package body SBApackage is
   procedure dec(variable val:inout integer) is
   begin
     val := val - 1;
+  end;
+
+  function MAXIMUM(a:unsigned;b:unsigned) return unsigned is
+  begin
+    if a>b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+  function MINIMUM(a:unsigned;b:unsigned) return unsigned is
+  begin
+    if a<b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+  function MAXIMUM(a:signed;b:signed) return signed is
+  begin
+    if a>b then
+      return a;
+    else
+      return b;
+    end if;
+  end;
+
+    function MINIMUM(a:signed;b:signed) return signed is
+  begin
+    if a<b then
+      return a;
+    else
+      return b;
+    end if;
   end;
 
 end;

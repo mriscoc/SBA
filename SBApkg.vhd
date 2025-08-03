@@ -2,7 +2,7 @@
 --
 -- SBA Package
 --
--- version 5.5 2019/08/04
+-- version 5.6 2025/08/03
 --
 -- General functions and procedures definitions
 -- for SBA v1.2
@@ -28,11 +28,11 @@ package SBApackage is
   function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector;
   function rndv(n:natural) return std_logic_vector;
   function rndi(n:integer) return integer;
-  function chr2uns(chr: character) return unsigned;
-  function chr2int(chr: character) return integer;
+  function chr2uns(char: character) return unsigned;
+  function chr2int(char: character) return integer;
   function chr(uns: unsigned) return character;
   function chr(int: integer) return character;
-  function hex2uns(hex: unsigned) return unsigned;
+  function hex2uns(hexval: unsigned) return unsigned;
   function hex(uns: unsigned) return unsigned;
   function hex(int: integer) return integer;
   function hex(int: integer) return character;
@@ -72,7 +72,6 @@ package body SBApackage is
   variable a1 : unsigned(a'length-1 downto 0):=a;
   variable b1 : unsigned(b'length-1 downto 0):=b;
   variable p1 : unsigned(b'length downto 0):= (others => '0');
-  variable i : integer:=0;
   begin
     for i in integer range 0 to b'length-1 loop
       p1(b'length-1 downto 1) := p1(b'length-2 downto 0);
@@ -90,8 +89,8 @@ package body SBApackage is
   end udiv;
 
 --
--- Destiny<=Trailing(Source, Destiny'length, '1/0/Z/X');  
--- 
+-- Destiny<=Trailing(Source, Destiny'length, '1/0/Z/X');
+--
   function trailing(slv:std_logic_vector;len:positive;value:std_logic) return std_logic_vector is
   variable s:integer;
   variable v:std_logic_vector(len-1 downto 0);
@@ -118,14 +117,14 @@ package body SBApackage is
     return std_logic_vector(to_unsigned(rndi(2**n-1),n));
   end;
 
-  function chr2uns(chr: character) return unsigned is
+  function chr2uns(char: character) return unsigned is
   begin
-    return to_unsigned(character'pos(chr),8);
+    return to_unsigned(character'pos(char),8);
   end;
 
-  function chr2int(chr: character) return integer is
+  function chr2int(char: character) return integer is
   begin
-    return character'pos(chr);
+    return character'pos(char);
   end;
 
   function chr(uns: unsigned) return character is
@@ -138,13 +137,13 @@ package body SBApackage is
     return character'val(int);
   end;
 
-  function hex2uns(hex: unsigned) return unsigned is
-  variable ret:unsigned(hex'range);
+  function hex2uns(hexval: unsigned) return unsigned is
+  variable ret:unsigned(hexval'range);
   begin
-    if (hex>=chr2uns('0')) and (hex<=chr2uns('9')) then
-      ret:= hex - chr2uns('0');
-    elsif (hex>=chr2uns('A')) and (hex<=chr2uns('F')) then
-      ret:= hex - chr2uns('A') + 10;
+    if (hexval>=chr2uns('0')) and (hexval<=chr2uns('9')) then
+      ret:= hexval - chr2uns('0');
+    elsif (hexval>=chr2uns('A')) and (hexval<=chr2uns('F')) then
+      ret:= hexval - chr2uns('A') + 10;
     else
       ret:= (others=>'0');
     end if;
@@ -161,7 +160,7 @@ package body SBApackage is
     else
       ret:= resize(chr2uns('?'),uns'length);
     end if;
-    return ret;     
+    return ret;
   end;
 
   function hex(int: integer) return integer is
@@ -174,13 +173,13 @@ package body SBApackage is
     else
       ret:= chr2int('?');
     end if;
-    return ret;     
+    return ret;
   end;
 
   function hex(int: integer) return character is
   begin
     return chr(hex(int));
-  end;  
+  end;
 
 -- convert integer to string using specified base
 -- (adapted from Steve Vogwell's posting in comp.lang.vhdl)

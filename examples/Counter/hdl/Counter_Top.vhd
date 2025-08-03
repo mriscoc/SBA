@@ -1,36 +1,18 @@
 --------------------------------------------------------------------------------
---
 -- Project Name: Counter
 -- Title: SBA Seven segments 4 digits up counter demo
 -- Version: 0.1.1
--- Date: 2015/06/12
--- Author: Miguel A. Risco-Castillo
--- Description: This a demo of the implementation of a simple up counter in the 
--- 4 digits 7 segments display of the Nexys2 board.
--- 
+-- Date: 2025/08/03
+-- Project Author: Miguel Risco-Castillo
+-- Description: Demo implementation of a simple upcounter with 4 digits, 7 segments 
+-- display and a pulsating LED for the Terasic DE boards. The system 
+-- clock is assumed to be 50MHz.
 --------------------------------------------------------------------------------
--- Copyright:
---
--- This code, modifications, derivate work or based upon, can not be used or
--- distributed without the complete credits on this header.
---
--- This version is released under the GNU/GLP license
--- http://www.gnu.org/licenses/gpl.html
--- if you use this component for your research please include the appropriate
--- credit of Author.
---
--- The code may not be included into ip collections and similar compilations
--- which are sold. If you want to distribute this code for money then contact me
--- first and ask for my permission.
---
--- These copyright notices in the source code may not be removed or modified.
--- If you modify and/or distribute the code to any third party then you must not
--- veil the original author. It must always be clearly identifiable.
---
--- Although it is not required it would be a nice move to recognize my work by
--- adding a citation to the application's and/or research.
---
--- FOR COMMERCIAL PURPOSES REQUEST THE APPROPRIATE LICENSE FROM THE AUTHOR.
+-- Template version: 1.3
+-- Template date: 2019/06/15
+--------------------------------------------------------------------------------
+-- For License and Copyright example, you can use or modify at your convenience
+-- the file SBAlicense.md for your project.
 --------------------------------------------------------------------------------
 
 Library IEEE;
@@ -41,9 +23,12 @@ entity Counter_Top is
 port (
   CLK_I     : in  std_logic;
   RST_I     : in  std_logic;
-  LEDS      : out std_logic_vector(7 downto 0);
-  DIG       : out std_logic_vector(3 downto 0);
-  SEG       : in  std_logic_vector(7 downto 0)
+  HEX0      : out std_logic_vector(7 downto 0);
+  HEX1      : out std_logic_vector(7 downto 0);
+  HEX2      : out std_logic_vector(7 downto 0);
+  HEX3      : out std_logic_vector(7 downto 0);
+  SW        : in  std_logic_vector(7 downto 0);
+  LEDR      : out std_logic_vector(9 downto 0)
 );
 end Counter_Top;
 
@@ -57,6 +42,8 @@ architecture Counter_structural of Counter_Top is
   Signal ADRi  : ADDR_type;
   Signal DATOi : DATA_type;
   Signal DATIi : DATA_type;
+  Signal ADATi : ADAT_type;
+  Signal STBEi : std_logic;
   Signal STBi  : std_logic_vector(Stb_width-1 downto 0);
   Signal WEi   : Std_Logic;
   Signal ACKi  : Std_Logic;
@@ -65,11 +52,9 @@ architecture Counter_structural of Counter_Top is
 -- Auxiliary external to internal signals
   Signal CLKe  : std_logic;
   Signal RSTe  : std_logic;
-  Signal STBEi : std_logic;
 
 -- Auxiliary IPCores signals
   Signal CLKDi      : std_logic;
-  Signal DAT_GPIO   : DATA_type;
 
 --------------------------------------------------------------------------------
 
@@ -96,38 +81,45 @@ begin
     INT_I => INTi  
   );
 
-  Counter_SBAdecoder: entity work.Counter_SBAdecoder
+  Counter_mux: entity work.Counter_SBAmux
   port Map(
-    STB_I => STBEi,
-    ADR_I => ADRi,
-    STB_O => STBi
+    STB_I => STBEi,             -- Address Enabler
+    -- ADDRESS decoder --------
+    ADR_I => ADRi,              -- Address input Bus
+    STB_O => STBi,              -- Strobe Chips selector
+    -- DATA mux ---------------
+    ADAT_I=> ADATi,             -- Array of data buses
+    DAT_O => DATIi              -- Data out bus
   );
 
   CLKDIV: entity work.CLKDIV
   generic map(
-    infrec  => sysfrec,
-    outfrec => 1000
+    infreq  => sysfreq,
+    outfreq => 1,
+    debug   => debug
   )
   port map(
     -------------
     RST_I => RSTi,
     CLK_I => CLKi,
     -------------
-    CLK_O   => CLKDi
+    CLK_O => CLKDi
   );
 
-  D7SNX2: entity work.D7SNX2
+  D7SDEX: entity work.D7SDEX
   port map(
     -------------
     RST_I => RSTi,
     CLK_I => CLKi,
-    STB_I => STBi(STB_D7SNX2),
+    STB_I => STBi(STB_D7SDEX),
     ADR_I => ADRi,
     WE_I  => WEi,
     DAT_I => DATOi,
     -------------
-    DIG     => DIG,
-    SEG     => SEG
+    HEX0  => HEX0,
+    HEX1  => HEX1,
+    HEX2  => HEX2,
+    HEX3  => HEX3
   );
 
   GPIO: entity work.GPIO
@@ -141,25 +133,19 @@ begin
     STB_I => STBi(STB_GPIO),
     WE_I  => WEi,
     DAT_I => DATOi,
-    DAT_O => DAT_GPIO,
+    DAT_O => ADATi(STB_GPIO),
     -------------
-    P_I     => x"FF",
-    P_O     => LEDS
-  );
-
-  GPIODataIntf: entity work.DataIntf
-  port map(
-    STB_I => STBi(STB_GPIO),
-    DAT_I => DAT_GPIO,
-    DAT_O => DATIi
+    P_I   => SW,
+    P_O   => LEDR(8 downto 1)
   );
 
 
 
 -- External Signals Assignments
 -------------------------------
- RSTe  <= RST_I;
+ RSTe  <= not RST_I;            -- SBA reset is active high, negate if it is necessary
  CLKe  <= CLK_I;
+ LEDR(0) <= CLKDi;
 
 -- Internal Signals Assignments
 -------------------------------

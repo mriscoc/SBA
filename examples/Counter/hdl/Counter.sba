@@ -1,0 +1,28 @@
+{
+"name": "Counter",
+"title": "SBA Seven segments 4 digits up counter demo",
+"author": "Miguel Risco-Castillo",
+"version": "0.1.1",
+"sbaversion": "1.2",
+"date": "2025/08/03",
+"description": "Demo implementation of a simple upcounter with 4 digits, 7 segments display and a pulsating LED for the Terasic DE boards. The system clock is assumed to be 50MHz.",
+"expmonolithic": false,
+"explibfiles": true,
+"expuserfiles": true,
+"interface": [
+	{"portname": "CLK_I", "dir": "in", "bus": 0},
+	{"portname": "RST_I", "dir": "in", "bus": 0},
+	{"portname": "HEX0", "dir": "out", "bus": 1, "msb": 7, "lsb": 0},
+	{"portname": "HEX1", "dir": "out", "bus": 1, "msb": 7, "lsb": 0},
+	{"portname": "HEX2", "dir": "out", "bus": 1, "msb": 7, "lsb": 0},
+	{"portname": "HEX3", "dir": "out", "bus": 1, "msb": 7, "lsb": 0},
+	{"portname": "SW", "dir": "in", "bus": 1, "msb": 7, "lsb": 0},
+	{"portname": "LEDR", "dir": "out", "bus": 1, "msb": 7, "lsb": 0}
+],
+"ipcores": [
+	"CLKDIV",
+	"D7SDEX",
+	"GPIO"
+],
+"userfiles": null
+}

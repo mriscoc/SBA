@@ -1,0 +1,33 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Sun Aug 03 05:17:27 2025
+[*]
+[dumpfile] "tb.vcd"
+[dumpfile_mtime] "Sun Aug 03 02:35:39 2025"
+[dumpfile_size] 13007
+[savefile] "tb.gtkw"
+[timestart] 0
+[size] 1163 748
+[pos] 634 260
+*-29.643969 255000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testbench.
+[treeopen] testbench.uut.
+[sst_width] 280
+[signals_width] 191
+[sst_expanded] 1
+[sst_vpaned_height] 208
+@28
+testbench.clk_i_tb
+testbench.rst_i_tb
+testbench.uut.rsti
+@22
+testbench.uut.adri[15:0]
+testbench.uut.datoi[15:0]
+@28
+testbench.uut.stbei
+@22
+testbench.uut.stbi[7:0]
+@28
+testbench.uut.wei
+[pattern_trace] 1
+[pattern_trace] 0
