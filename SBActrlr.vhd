@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.71 2025/08/03
+-- SBA Master System Controller v1.72 2025/08/03
 -- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -165,6 +165,7 @@ begin
 -- /SBA: Label constants =======================================================
   constant INT: integer := 003;
   constant Init: integer := 004;
+  constant Mainloop: integer := 006;
 -- /SBA: End Label constants ---------------------------------------------------
 
 begin

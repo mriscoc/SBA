@@ -23,13 +23,15 @@ ghdl -r testbench --vcd=.\tb\tb.vcd --stop-time=5us
 
 echo Opening GTKWave with saved configuration...
 gtkwave .\tb\tb.vcd .\tb\tb.gtkw
-exit 0
+goto exit
 
 :error
 echo There are some errors in your vhdl files.
-exit %ERRORLEVEL%
+REM exit %ERRORLEVEL%
+goto exit
 
 :help
 echo Usage:
 echo run_sim [proyect_name]
 
+:exit
