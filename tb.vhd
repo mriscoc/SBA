@@ -1,8 +1,10 @@
 --------------------------------------------------------------------------------
 -- Title: Testbench for %name%_Top
--- Version: 0.1.0
--- Date: 2025/08/02
+-- Version: 1.1.0
+-- Date: 2025/10/22
+-- Author: Miguel A. Risco-Castillo
 -- Description: Testbench for %name%_Top entity with 10 MHz clock simulation
+-- Requires VHDL2008+ compatibility
 --------------------------------------------------------------------------------
 
 Library IEEE;
@@ -10,19 +12,21 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.%name%_SBAconfig.all;
 
+library std;
+use std.env.all; -- Include the env package
+
 entity testbench is
 end testbench;
 
 architecture behavioral of testbench is
 
-    -- Clock period for 10 MHz (100 ns)
-    constant CLK_PERIOD : time := 100 ns;
+    constant CLK_PERIOD : time := (real(1000000000)/real(sysfreq)) * 1 ns;
 
     -- Testbench signals
     signal clk_i_tb   : std_logic := '0';
     signal rst_i_tb   : std_logic := '1';  -- Start with reset active
 
-    -- Clock counter for reset timing
+    -- Clock counter for timing
     signal clk_count  : integer := 0;
 
 begin
@@ -77,12 +81,13 @@ begin
             wait until rising_edge(clk_i_tb);
         end loop;
 
+        -- Put some stimulus to external signals here
 
-        -- End simulation
-        wait for 2 us;
-
-        report "Simulation completed successfully" severity note;
+        -- Wait for the simulation to end in the SBA controller.
+        -- If it does not end, uncomment the next line.
+        -- stop(0); -- Stops the simulation and returns 0 (success)
         wait;
+
     end process;
 
 end behavioral;
