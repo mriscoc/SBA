@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.72 2025/08/03
+-- SBA Master System Controller v1.73 2025/10/24
 -- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -88,7 +88,6 @@ begin
     end if;
 
     A_Oi <= addr;
-    S_Oi <= '1';
     W_Oi <= '0';
   end;
 
@@ -114,7 +113,7 @@ begin
   -- Do not make any changes to the bus and re-enable the strobe signal, use only after a valid read/write.
   procedure SBAwait is
   begin
-    S_Oi<='1'; 
+    S_Oi<=W_Oi;  -- Strobe signal only in Write operations
   end;
 
   -- Jump to arbitrary step
