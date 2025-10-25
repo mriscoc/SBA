@@ -26,6 +26,9 @@ use ieee.numeric_std.all;
 use work.%name%_SBAconfig.all;
 use work.SBApackage.all;
 
+library std;
+use std.env.all; -- Include the env package
+
 entity %name%_SBAcontroller  is
 port(
    RST_I : in std_logic;                     -- active high reset
@@ -221,7 +224,9 @@ begin
 -- /L:Init
         When 005=>                           -- Start your program here
 -- /L:Mainloop
-        When 006=> SBAjump(Mainloop);
+                   report "Simulation completed successfully" severity note;
+        When 006=> stop(0); -- Stops the simulation and returns 0 (success)
+                   SBAjump(Mainloop);
                 
 -- /SBA: End User Program ------------------------------------------------------
 
