@@ -9,7 +9,7 @@
 -- Description: %description%
 -- /SBA: End Program Details ---------------------------------------------------
 --
--- SBA Master System Controller v1.73 2025/10/24
+-- SBA Master System Controller v1.74 2025/11/12
 -- Based on Master Controller for SBA v1.2 Guidelines
 --
 -- SBA Author: Miguel A. Risco-Castillo
@@ -80,24 +80,27 @@ begin
   variable rfif : std_logic;                 -- Return from Interrupt flag
   variable tmpdati : unsigned(DAT_I'range);  -- Temporal dati
   variable tiei : std_logic;                 -- Temporal Interrupt Enable
+  variable tmpa_o  : ADR_type;               -- Temporal A_Oi
+  variable tmpw_o  : std_logic;              -- Temporal W_Oi
 
 -- /SBA: Procedures ============================================================
 
   -- Prepare bus for reading from DAT_I in the next step
   procedure SBAread(addr:in integer) is
   begin
-    if (debug=1) then
+    if (debug>1) then
       Report "SBAread: Address=" &  integer'image(addr);
     end if;
 
     A_Oi <= addr;
+    S_Oi <= '1';
     W_Oi <= '0';
   end;
 
   -- Write values to bus
   procedure SBAwrite(addr:in integer; data: in unsigned) is
   begin
-    if (debug=1) then
+    if (debug>1) then
       Report "SBAwrite: Address=" &  integer'image(addr) & " Data=" &  integer'image(to_integer(data));
     end if;
 
@@ -116,7 +119,7 @@ begin
   -- Do not make any changes to the bus and re-enable the strobe signal, use only after a valid read/write.
   procedure SBAwait is
   begin
-    S_Oi<=W_Oi;  -- Strobe signal only in Write operations
+    S_Oi <= '1';
   end;
 
   -- Jump to arbitrary step
@@ -146,6 +149,8 @@ begin
     jmp:=reti;
     IEi<=tiei;
     rfif:='1';
+    A_Oi<=tmpa_o;
+    W_Oi<=tmpw_o;
   end;
 
   -- Interrupt enable disable
@@ -174,7 +179,7 @@ begin
 
   if rising_edge(CLK_I) then
   
-    if (debug=1) then
+    if (debug>1) then
       Report "Step: " &  integer'image(STPi);
     end if;
 	 
@@ -204,6 +209,8 @@ begin
       IEi <='0';              -- Default Interrupt disable
       reti:= 0;
       rfif:='0';
+      tmpa_o:=A_Oi;
+      tmpw_o:=W_Oi;
 
     elsif (ACK_I='1') or (S_Oi='0') then
       case STPi is
@@ -237,6 +244,8 @@ begin
         if jmp/=0 then reti:=jmp; else reti:=NSTPi; end if;
         tiei := IEi;
         IEi <= '0';
+        tmpa_o:=A_Oi;
+        tmpw_o:=W_Oi;
         STPi <= 2;      -- Always jump to Step 002 (Interrupt vector) (TODO: Could be INT?)
       else
         if jmp/=0 then STPi<=jmp; else STPi<=NSTPi; end if;

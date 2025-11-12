@@ -29,7 +29,7 @@ use ieee.std_logic_1164.all;
 package %name%_SBAconfig is
 
 -- System configuration
-  Constant debug     : integer := 1;    -- '1' for Debug reports
+  Constant debug     : integer := 1;    -- Debug level for reports
   Constant Adr_width : integer := 16;   -- Width of address bus
   Constant Dat_width : integer := 16;   -- Width of data bus
   Constant Stb_width : integer := 8;    -- number of strobe signals (chip select)
